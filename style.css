@@ -1,0 +1,10 @@
+#menu{
+    display: flex;
+    flex-wrap: wrap;
+    width: 600px;
+    height: auto;
+    justify-content: space-evenly;
+}
+.gomb_kivalasztva{
+    border: rgb(179, 14, 14) solid 2px;
+}
