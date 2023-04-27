@@ -1,5 +1,5 @@
-var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var div_head = document.createElement("div");div_head.id = "main_head";
-document.body.appendChild(menu);document.body.appendChild(div);div.style.display = "none";
+var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
+document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
 var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime;
 //menu,tábla generálás
 function setTimer () {
@@ -23,21 +23,24 @@ function main_head_gen(){
 function gomb_kivalasztas(elem)
 {
     if(ingame == false){
-        let nehezseg_divGyerekek = document.getElementById("nehezseg_div").childNodes;
+        /*let nehezseg_divGyerekek = document.getElementById("nehezseg_div").childNodes;
         for(let i = 0; i<nehezseg_divGyerekek.length;i++)
         {      
             nehezseg_divGyerekek[i].className ="";
         }
-        elem.className+="gomb_kivalasztva";
+        elem.className+="gomb_kivalasztva";*/
+        let nehezseg_span_kivalasztott = document.getElementById("nehezseg_span_kivalasztott");
+        nehezseg_span_kivalasztott.innerText = elem.innerText;
         if(elem.id=="egyeniGomb")
         {
-            document.getElementById("bombaBe").disabled=false;document.getElementById("magBe").disabled=false;document.getElementById("szelBe").disabled=false;}
+            document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";}
         else
         {
+            document.getElementById("bombaBe").style.display="none";document.getElementById("magBe").style.display="none";document.getElementById("szelBe").style.display="none";
             let parameter_divGyerekek = document.getElementById("parameter_div").childNodes;
             for(let i = 0; i<parameter_divGyerekek.length;i++)
             {      
-                parameter_divGyerekek[i].disabled=true;
+                parameter_divGyerekek[i].style.display="none";
                 if(i ==0)
                 {
                     parameter_divGyerekek[i].value=elem.dataset.szel}
@@ -49,16 +52,33 @@ function gomb_kivalasztas(elem)
                     parameter_divGyerekek[i].value=elem.dataset.bomba}
             }
         }
+        let start = document.getElementById("startGomb")
+        if(start.disabled == true)
+        {
+            start.disabled = false
+        }
     }
 }
 function menu_gen(){
-    let nehezseg_div = document.createElement("div");
-    nehezseg_div.id="nehezseg_div";
-    menu.appendChild(nehezseg_div);
-    
-    let parameter_div = document.createElement("div");
-    parameter_div.id="parameter_div";
-    menu.appendChild(parameter_div);
+    let nehezseg_span = document.createElement("span");
+    nehezseg_span.innerText="Nehézség";
+    nehezseg_span.id="nehezseg_span";
+    menu.appendChild(nehezseg_span);
+
+    let nehezseg_span_kivalasztott = document.createElement("span");
+    nehezseg_span_kivalasztott.id="nehezseg_span_kivalasztott";
+    menu.appendChild(nehezseg_span_kivalasztott);
+
+    let nehezseg_div_dropdown = document.createElement("div");
+    nehezseg_div_dropdown.id="nehezseg_div_dropdown";
+    nehezseg_span.appendChild(nehezseg_div_dropdown);
+
+    let startGomb = document.createElement("button");
+    startGomb.id="startGomb";
+    startGomb.innerText="Indítás";
+    startGomb.setAttribute("onclick","Load()");
+    startGomb.setAttribute("disabled","true");
+    menu.appendChild(startGomb);
 
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
@@ -66,8 +86,8 @@ function menu_gen(){
     konnyuGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     konnyuGomb.dataset.mag=9;
     konnyuGomb.dataset.szel=9;
-    konnyuGomb.dataset.bomba=5;
-    nehezseg_div.appendChild(konnyuGomb);
+    konnyuGomb.dataset.bomba=10;
+    nehezseg_div_dropdown.appendChild(konnyuGomb);
 
     let haladoGomb = document.createElement("button");
     haladoGomb.id="haladoGomb";
@@ -76,7 +96,7 @@ function menu_gen(){
     haladoGomb.dataset.mag=20;
     haladoGomb.dataset.szel=20;
     haladoGomb.dataset.bomba=10;
-    nehezseg_div.appendChild(haladoGomb);
+    nehezseg_div_dropdown.appendChild(haladoGomb);
 
     let nehezGomb = document.createElement("button");
     nehezGomb.id="nehezGomb";
@@ -85,43 +105,47 @@ function menu_gen(){
     nehezGomb.dataset.mag=50;
     nehezGomb.dataset.szel=50;
     nehezGomb.dataset.bomba=200;
-    nehezseg_div.appendChild(nehezGomb);
+    nehezseg_div_dropdown.appendChild(nehezGomb);
 
     let egyeniGomb = document.createElement("button");
     egyeniGomb.id="egyeniGomb";
     egyeniGomb.innerText="Egyéni";
     egyeniGomb.setAttribute("onClick","gomb_kivalasztas(this)");
-    nehezseg_div.appendChild(egyeniGomb);
+    nehezseg_div_dropdown.appendChild(egyeniGomb);
+
+    let parameter_div = document.createElement("div");
+    parameter_div.id="parameter_div";
+    almenu.appendChild(parameter_div);
 
     let szelBe = document.createElement("input");
     szelBe.setAttribute("type","number");
     szelBe.setAttribute("min","9");
     szelBe.id = "szelBe";
+    szelBe.setAttribute("placeholder","Szélesség");
     szelBe.setAttribute("onKeyDown","return false");
-    szelBe.setAttribute("disabled","true");
+    //szelBe.setAttribute("disabled","true");
+    szelBe.style.display="none";
     parameter_div.appendChild(szelBe);
 
     let magBe = document.createElement("input");
     magBe.setAttribute("type","number");
     magBe.setAttribute("min","9");
+    magBe.setAttribute("placeholder","Magasság");
     magBe.id="magBe";
     magBe.setAttribute("onKeyDown","return false");
-    magBe.setAttribute("disabled","true");
+    //magBe.setAttribute("disabled","true");
+    magBe.style.display="none";
     parameter_div.appendChild(magBe);
 
     let bombaBe = document.createElement("input");
     bombaBe.setAttribute("type","number");
     bombaBe.setAttribute("min","9");
+    bombaBe.setAttribute("placeholder","Akna");
     bombaBe.id="bombaBe";
     bombaBe.setAttribute("onKeyDown","return false");
-    bombaBe.setAttribute("disabled","true");
+    //bombaBe.setAttribute("disabled","true");
+    bombaBe.style.display="none";
     parameter_div.appendChild(bombaBe);
-
-    let startGomb = document.createElement("button");
-    startGomb.id="startGomb";
-    startGomb.innerText="Indítás";
-    startGomb.setAttribute("onclick","Load()");
-    menu.appendChild(startGomb);
 }
 function tabla_gen(){
     var table = document.createElement("table");
@@ -201,7 +225,8 @@ function felfedes(item){
         if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0) {
             Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1);}
         else if(matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == -1){
-            item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";
+            item.src = "img/talalt.png";item.zaszlo = 3;//Csak hogy ne írja át a vege
+            //"img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";
             ingame = false;
             Vege(false);}
         else{
@@ -222,7 +247,10 @@ function Vege(win){
     ingame = false;
     for (let index = 0; index < lerakottbombak.length; index++) {
         var item = document.getElementById(lerakottbombak[index]);
-        item.src = "img/-1.png";item.zaszlo = 2;
+        if(item.zaszlo!=3)
+        {
+            item.src = "img/-1.png";item.zaszlo = 2;
+        }
     }
     if (win) {
         alert("Nyertél! Idő: "+elapsedTime+" másodperc!");
