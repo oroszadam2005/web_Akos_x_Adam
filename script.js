@@ -219,6 +219,7 @@ function Reset(){
 }
 function Vege(win){
     clearInterval(timer);
+    ingame = false;
     for (let index = 0; index < lerakottbombak.length; index++) {
         var item = document.getElementById(lerakottbombak[index]);
         item.src = "img/-1.png";item.zaszlo = 2;
