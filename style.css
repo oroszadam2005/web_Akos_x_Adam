@@ -1,0 +1,130 @@
+@font-face {
+    font-family: "Digital Dismay";
+    src: url("./digital-dismay.otf") format("truetype");
+}
+body{
+    background-image: url("img/hatter.png");
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: color;
+}
+td,tr,table{
+    padding: 0px;
+    border: 0px;
+    table-layout: fixed;
+    
+}
+table,#head{
+    border-top: 2px solid #7B7B7B;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    border-left: 2px solid #7B7B7B;
+    margin: 6px;
+}
+img{
+    width: 25px;
+    height: 25px; 
+    display: block;
+}
+table{
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+#menu,#almenu{
+    margin: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    height: auto;
+    justify-content: space-evenly;
+}
+.gomb_kivalasztva{
+    border: rgb(168, 102, 102) solid 4px;
+}
+#main{
+    margin: 0 auto;
+    margin-top:50px;
+    background-color: #C0C0C0;
+    border: 1.5px solid;
+    border-top-color: #ffffff;
+    border-right-color: #7B7B7B;
+    border-bottom-color: #7B7B7B;
+    border-left-color: #ffffff;
+}
+#main_head{
+    height: 50px;      
+}
+#head{
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2px;
+}
+#time_disp,#bomba_disp{
+    font-family: 'Digital Dismay';
+    font-size: 35px;
+    letter-spacing: 1px;
+    color: red;
+    background-color: black;
+    text-align: center;
+    padding: 4px 4px 0 7px;
+}
+#reset_disp{
+    text-align: center;
+    width: 42px;
+    height: 42px;
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+}
+
+#reset_img_disp{
+    width: 100%;
+    height: 100%;
+}
+#nehezseg_span,#startGomb,#nehezseg_span_kivalasztott{
+    padding: 10px;
+    font-family:Arial, Helvetica, sans-serif;
+    width: 100px;
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    position: relative;
+    background-color: #C0C0C0;
+    text-align: center;
+}
+#nehezseg_div_dropdown{
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 40px;
+    right: -2px;
+    width: 124px;
+}
+#nehezseg_span:hover #nehezseg_div_dropdown{
+    display: flex ;
+    flex-direction: column ;
+}
+#nehezseg_span:hover #nehezseg_div_dropdown>button{
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    background-color: #C0C0C0;
+}
+#parameter_div>input{
+    padding: 3px;
+    font-family:Arial, Helvetica, sans-serif;
+    width: fit-content;
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    position: relative;
+    background-color: #C0C0C0;
+    text-align: center;
+}
