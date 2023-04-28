@@ -1,6 +1,6 @@
 var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
 document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
-var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime;
+var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];
 //menu,tábla generálás
 function setTimer () {
     timer = setInterval(function(){
@@ -157,10 +157,15 @@ function tabla_gen(){
             var img = document.createElement("img");
             img.id = (index*szel)+index1+1;img.src = "img/fedett.png";img.setAttribute("onclick","felfedes(this)");
             img.addEventListener('contextmenu', function(ev) {
-                if(this.zaszlo == null || this.zaszlo == 0){
-                    this.zaszlo = 1;this.src = "img/zaszlo.png";}
-                else if(this.zaszlo == null || this.zaszlo !=2){
-                    this.zaszlo = 0;this.src = "img/fedett.png";}
+                if(ingame == true)
+                {
+                    if(this.zaszlo == null || this.zaszlo == 0){
+                        zaszlok.push(this.id);
+                        this.zaszlo = 1;this.src = "img/zaszlo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                    else if(this.zaszlo == null || this.zaszlo !=2){
+                        zaszlok.splice(zaszlok.indexOf(this.id),1);
+                        this.zaszlo = 0;this.src = "img/fedett.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                }
                 ev.preventDefault();
                 return false;
             }, false);
@@ -226,6 +231,7 @@ function felfedes(item){
             Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1);}
         else if(matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == -1){
             item.src = "img/talalt.png";item.zaszlo = 3;//Csak hogy ne írja át a vege
+            document.getElementById("reset_img_disp").src="img/face_bum.png";
             //"img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";
             ingame = false;
             Vege(false);}
@@ -233,6 +239,7 @@ function felfedes(item){
             bejart.push(item.id);
             item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 2;}
         if (bejart.length == (szel*mag)-bomba) {
+            document.getElementById("reset_img_disp").src="img/nyert.png";
             setTimeout(Vege(true),100);
         }
     }
