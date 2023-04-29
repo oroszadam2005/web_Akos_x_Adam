@@ -271,6 +271,11 @@ function felfedes(item){
     }
 }
 function Reset(){
+    let offcanvas = document.getElementsByClassName("offcanvas")[0];
+    if(offcanvas.className =="offcanvas show offcanvas-start")
+    {
+        offcanvas.className ="offcanvas offcanvas-start"
+    }
     clearInterval(timer);
     ingame = false;
     div_head.innerHTML = "";div.innerHTML = "";
@@ -294,10 +299,49 @@ function Vege(win){
         }
     }
     if (win) {
-        alert("Nyertél! Idő: "+elapsedTime+" másodperc!");
+        //alert("Nyertél! Idő: "+elapsedTime+" másodperc!");
+        canvasMod(win);
     }else{
-        alert("Vesztettél! Idő: "+elapsedTime+" másodperc!");
+        //alert("Vesztettél! Idő: "+elapsedTime+" másodperc!");
+        canvasMod(win);
     }
+
+}
+function canvasMod(vegStatusz)
+{
+    let offcanvas = document.getElementsByClassName("offcanvas")[0];
+    let offcanvasTitle = document.getElementsByClassName("offcanvas-title")[0];
+    let offcanvasBody = document.getElementsByClassName("offcanvas-body")[0];
+    let offcanvasP = document.getElementById("offcanvas_body-p");
+    offcanvas.className = "offcanvas show offcanvas-start"
+    if(vegStatusz ==true)
+    {
+        offcanvasTitle.innerText = "Nyertél!";
+        offcanvasP.innerText ="Idő: "+document.getElementById("time_disp").innerText;
+    }
+    else
+    {
+        offcanvasTitle.innerText = "Vesztettél!";
+        offcanvasP.innerHTML ="Idő: "+document.getElementById("time_disp").innerText+"<br>";
+        offcanvasP.innerText +="Maradék bombák: "+document.getElementById("bomba_disp").innerText;
+    }
+}
+function canvasGen()
+{
+    document.body.innerHTML += ""+
+    "<div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvas' aria-labelledby='offcanvasLabel'>"+
+        "<div class='offcanvas-header'>"+
+            "<h5 class='offcanvas-title' id='offcanvasLabel'>Offcanvas</h5>"+
+            "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Reset()'></button>"+
+        "</div>"+
+        "<div class='offcanvas-body'>"+
+            "<p id='offcanvas_body-p'></p>"+
+            "<button type='button' class=' ' data-bs-dismiss='offcanvas' onclick='leaderboard()'>Ranglista</button>"+
+        "</div>"+
+    "</div>";
+    
+}
+function leaderboard(){
 
 }
 function Load(){
@@ -309,6 +353,7 @@ function Load(){
         document.getElementById("main").style.maxWidth = ((25*szel)+16)+"px";
         main_head_gen(),tabla_gen();matrix1();
         div.style.display = "block";
+        canvasGen();
     }
 }
 menu_gen();

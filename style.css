@@ -40,11 +40,6 @@ table{
     height: auto;
     justify-content: space-evenly;
 }
-*,
-*::before,
-*::after {
-  box-sizing: unset;
-}
 .gomb_kivalasztva{
     border: rgb(168, 102, 102) solid 4px;
 }
@@ -115,7 +110,7 @@ table{
     display: flex ;
     flex-direction: column ;
 }
-#nehezseg_span:hover #nehezseg_div_dropdown>button{
+#nehezseg_span:hover #nehezseg_div_dropdown>button,.offcanvas{
     border-top: 2px solid #ffffff;
     border-right: 2px solid #7B7B7B;
     border-bottom: 2px solid #7B7B7B;
@@ -133,4 +128,25 @@ table{
     position: relative;
     background-color: #C0C0C0;
     text-align: center;
+}
+*,
+*::before,
+*::after {
+  box-sizing: unset;
+}
+.offcanvas.offcanvas-start{
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    background-color: #C0C0C0;
+    width: fit-content;
+}
+button{
+    border-top: 2px solid #ffffff !important;
+    border-right: 2px solid #7B7B7B !important;
+    border-bottom: 2px solid #7B7B7B !important;
+    border-left: 2px solid #ffffff !important;
+    background-color: #C0C0C0 !important;
+    border-radius: 0% !important;
 }
