@@ -148,7 +148,7 @@ function menu_gen(){
     bombaBe.style.display="none";
     parameter_div.appendChild(bombaBe);
 }
-//Zaszlo ertekek: 0 fedett, 1 zaszlo, 2 kerdojel, 3 felfedve
+//Zaszlo ertekek: 0 fedett, 1 zaszlo, 2 kerdojel, 3 felfedve, 4 legutolso bomba amire ra nyomtál
 function tabla_gen(){
     var table = document.createElement("table");
     div.appendChild(table);
@@ -279,9 +279,16 @@ function Reset(){
 function Vege(win){
     clearInterval(timer);
     ingame = false;
+    for (let index = 0; index < zaszlok.length; index++) {
+        document.getElementById(zaszlok[index]).src = "img/hamis.png";
+    }
     for (let index = 0; index < lerakottbombak.length; index++) {
         var item = document.getElementById(lerakottbombak[index]);
-        if(item.zaszlo!=3)
+        if(item.zaszlo==4)
+        {
+            item.src = "img/talalt.png";item.zaszlo = 3;
+        }
+        else if(item.zaszlo!=3)
         {
             item.src = "img/-1.png";item.zaszlo = 3;
         }

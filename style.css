@@ -7,6 +7,7 @@ body{
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.5);
     background-blend-mode: color;
+    line-height: normal;
 }
 td,tr,table{
     padding: 0px;
@@ -38,6 +39,11 @@ table{
     width: 50%;
     height: auto;
     justify-content: space-evenly;
+}
+*,
+*::before,
+*::after {
+  box-sizing: unset;
 }
 .gomb_kivalasztva{
     border: rgb(168, 102, 102) solid 4px;
