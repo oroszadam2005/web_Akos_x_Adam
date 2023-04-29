@@ -3,6 +3,7 @@ document.body.appendChild(menu);document.body.appendChild(almenu);document.body.
 var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];
 //menu,tábla generálás
 function setTimer () {
+    
     timer = setInterval(function(){
       elapsedTime += 1;
       document.getElementById('time_disp').innerText = elapsedTime.toString().padStart(3, '0');
@@ -166,7 +167,7 @@ function tabla_gen(){
                     else if(this.zaszlo == null || this.zaszlo == 1){
                         zaszlok.splice(zaszlok.indexOf(this.id),1);
                         this.zaszlo = 2;this.src = "img/kerdo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
-                    else if(this.zaszlo == null || this.zaszlo == 2)
+                    else if(this.zaszlo == null || this.zaszlo == 2 )
                     {
                         this.zaszlo = 0;this.src = "img/fedett.png";
                     }
@@ -207,49 +208,53 @@ function matrix1(){
         }
     }
 }
-function Rekurziv_felfedes(x,y){
+function Rekurziv_felfedes(x,y,z){
     if (matrix[x][y] != -1) {
         var item = document.getElementById((x*szel)+y+1);
-        if(item.zaszlo==1){
-            return;}
-        item.src = "img/"+matrix[x][y]+".png";
-        item.zaszlo = 3;
+        if(item.zaszlo==1){  
+            z++;
+            bejart.splice(bejart.indexOf((x*szel)+y),1);
+        }else
+        {
+            item.src = "img/"+matrix[x][y]+".png";
+            item.zaszlo = 3;
+        }
+        if (z > 1) {
+            return;
+        }
         if (matrix[x][y]>0) {
             return;}
         if (x-1 >= 0 && bejart.includes(((x-1)*szel)+y) == false) {
             bejart.push(((x-1)*szel)+y);
-            setTimeout(Rekurziv_felfedes,10,x-1,y);}
+            setTimeout(Rekurziv_felfedes,10,x-1,y,z);}
         if (x+1 < mag && bejart.includes(((x+1)*szel)+y) == false) {
             bejart.push(((x+1)*szel)+y);
-            setTimeout(Rekurziv_felfedes,10,x+1,y);}
+            setTimeout(Rekurziv_felfedes,10,x+1,y,z);}
         if (y-1 >= 0 && bejart.includes((x*szel)+y-1) == false) {
             bejart.push((x*szel)+y-1);
-            setTimeout(Rekurziv_felfedes,10,x,y-1);}
+            setTimeout(Rekurziv_felfedes,10,x,y-1,z);}
         if (y+1 < szel && bejart.includes((x*szel)+y+1) == false) {
             bejart.push((x*szel)+y+1);
-            setTimeout(Rekurziv_felfedes,10,x,y+1);}
-        //Sarkok
-        console.log((x-2)*szel+y);
-        if (x-2 >= 0 && bejart.includes((x-2)*szel+y) == false) {
-            bejart.push((x-2)*szel+y);
-            setTimeout(Rekurziv_felfedes,10,x-2,y);}
-        /*if (x+1 < mag && bejart.includes(((x+1)*szel)+y) == false) {
-            bejart.push(((x+1)*szel)+y);
-            setTimeout(Rekurziv_felfedes,10,x+1,y);}
-        if (y-1 >= 0 && bejart.includes((x*szel)+y-1) == false) {
-            bejart.push((x*szel)+y-1);
-            setTimeout(Rekurziv_felfedes,10,x,y-1);}
-        if (y+1 < szel && bejart.includes((x*szel)+y+1) == false) {
-            bejart.push((x*szel)+y+1);
-            setTimeout(Rekurziv_felfedes,10,x,y+1);}*/
-        item.zaszlo = 3;
+            setTimeout(Rekurziv_felfedes,10,x,y+1,z);}
+        if (x-1 >= 0 && y-1 >= 0 && bejart.includes(((x-1)*szel)+y-1) == false) {
+            bejart.push(((x-1)*szel)+y-1);
+            setTimeout(Rekurziv_felfedes,5,x-1,y-1,z);}
+        if (x+1 < mag && y-1 >= 0 && bejart.includes(((x+1)*szel)+y-1) == false) {
+            bejart.push(((x+1)*szel)+y-1);
+            setTimeout(Rekurziv_felfedes,5,x+1,y-1,z);}
+        if (x+1 < mag && y+1 < szel && bejart.includes(((x+1)*szel)+y+1) == false) {
+            bejart.push(((x+1)*szel)+y+1);
+            setTimeout(Rekurziv_felfedes,5,x+1,y+1,z);}
+        if (x-1 >= 0 && y+1 < szel && bejart.includes(((x-1)*szel)+y+1) == false) {
+            bejart.push(((x-1)*szel)+y+1);
+            setTimeout(Rekurziv_felfedes,5,x-1,y+1,z);} 
     }
 }
 function felfedes(item){
     if (timer == null) setTimer();
     if (ingame == true) {
         if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0) {
-            Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1);}
+            Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1,0);}
         else if(matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == -1){
             item.src = "img/talalt.png";item.zaszlo = 4;//Csak hogy ne írja át a vege
             document.getElementById("reset_img_disp").src="img/face_bum.png";
@@ -266,6 +271,7 @@ function felfedes(item){
     }
 }
 function Reset(){
+    clearInterval(timer);
     ingame = false;
     div_head.innerHTML = "";div.innerHTML = "";
     div.style.display = "none";
