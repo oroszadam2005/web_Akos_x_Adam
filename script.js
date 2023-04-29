@@ -19,7 +19,6 @@ function main_head_gen(){
     reset_img_disp.src = "img/face.png";reset_disp.appendChild(reset_img_disp);reset_img_disp.setAttribute("onclick","Reset()");
     var time_disp = document.createElement("div");time_disp.id = "time_disp";time_disp.innerText ="000";
     head.appendChild(bomba_disp);head.appendChild(reset_disp);head.appendChild(time_disp);
-    document.getElementById('bomba_disp').innerText = bomba.toString().padStart(3, '0');
 }
 function gomb_kivalasztas(elem)
 {
@@ -270,17 +269,7 @@ function felfedes(item){
         }
     }
 }
-function Reset(){
-    let offcanvas = document.getElementsByClassName("offcanvas")[0];
-    if(offcanvas.className =="offcanvas show offcanvas-start")
-    {
-        offcanvas.className ="offcanvas offcanvas-start"
-    }
-    clearInterval(timer);
-    ingame = false;
-    div_head.innerHTML = "";div.innerHTML = "";
-    div.style.display = "none";
-}
+
 function Vege(win){
     clearInterval(timer);
     ingame = false;
@@ -328,7 +317,9 @@ function canvasMod(vegStatusz)
 }
 function canvasGen()
 {
-    document.body.innerHTML += ""+
+    const target = document.querySelector('#script');
+    var board = document.createElement("div");board.id = "board";
+    board.innerHTML = ""+
     "<div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvas' aria-labelledby='offcanvasLabel'>"+
         "<div class='offcanvas-header'>"+
             "<h5 class='offcanvas-title' id='offcanvasLabel'>Offcanvas</h5>"+
@@ -339,21 +330,32 @@ function canvasGen()
             "<button type='button' class=' ' data-bs-dismiss='offcanvas' onclick='leaderboard()'>Ranglista</button>"+
         "</div>"+
     "</div>";
-    
+    target.parentNode.insertBefore(board, target) ;
 }
 function leaderboard(){
 
 }
+function Reset(){
+    clearInterval(timer);timer = null;elapsedTime = 0;
+    div_head.innerHTML = "";div.innerHTML = "";matrix = [];lerakottbombak = [];bejart = [];zaszlok = []; 
+    ingame = false;
+    div_head.innerHTML = "";div.innerHTML = "";
+    let offcanvas = document.getElementsByClassName("offcanvas")[0];
+    if(offcanvas.className =="offcanvas show offcanvas-start")
+    {
+        offcanvas.className ="offcanvas offcanvas-start"
+    }
+    div.style.display = "none";
+}
 function Load(){
     if (ingame == false && document.getElementById("bombaBe").value+document.getElementById("magBe").value+document.getElementById("szelBe").value > 0 ) {  
-        clearInterval(timer);timer = null;elapsedTime = 0;
-        div_head.innerHTML = "";div.innerHTML = "";matrix = [];lerakottbombak = [];bejart = [];  
+        Reset();
         bomba = document.getElementById("bombaBe").value;mag = document.getElementById("magBe").value;szel = document.getElementById("szelBe").value; 
-        ingame = true;
         document.getElementById("main").style.maxWidth = ((25*szel)+16)+"px";
         main_head_gen(),tabla_gen();matrix1();
-        div.style.display = "block";
-        canvasGen();
+        document.getElementById('bomba_disp').innerText = bomba.toString().padStart(3, '0');
+        div.style.display = "block";        
+        ingame = true;
     }
 }
-menu_gen();
+menu_gen();canvasGen();
