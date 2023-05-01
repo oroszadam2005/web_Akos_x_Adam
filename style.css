@@ -36,7 +36,6 @@ table{
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
-    width: 50%;
     height: auto;
     justify-content: space-evenly;
 }
@@ -86,10 +85,17 @@ table{
     width: 100%;
     height: 100%;
 }
+#menu_start_div{
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+}
 #nehezseg_span,#startGomb,#nehezseg_span_kivalasztott{
+    margin: auto;
     padding: 10px;
     font-family:Arial, Helvetica, sans-serif;
     width: 100px;
+    height: 20px;
     border-top: 2px solid #ffffff;
     border-right: 2px solid #7B7B7B;
     border-bottom: 2px solid #7B7B7B;
@@ -98,7 +104,24 @@ table{
     background-color: #C0C0C0;
     text-align: center;
 }
+
+#boardopen{
+    left: 5px;
+    width: 100px;
+    height: 20px;
+    padding: 10px;
+    font-family:Arial, Helvetica, sans-serif;
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    position: fixed;
+    background-color: #C0C0C0;
+    text-align: center;
+}
+
 #nehezseg_div_dropdown{
+    margin-top: 2px;
     display: none;
     position: absolute;
     z-index: 1;
@@ -109,13 +132,6 @@ table{
 #nehezseg_span:hover #nehezseg_div_dropdown{
     display: flex ;
     flex-direction: column ;
-}
-#nehezseg_span:hover #nehezseg_div_dropdown>button,.offcanvas{
-    border-top: 2px solid #ffffff;
-    border-right: 2px solid #7B7B7B;
-    border-bottom: 2px solid #7B7B7B;
-    border-left: 2px solid #ffffff;
-    background-color: #C0C0C0;
 }
 #parameter_div>input{
     padding: 3px;
@@ -134,6 +150,15 @@ table{
 *::after {
   box-sizing: unset;
 }
+#flag{
+    color: red;
+}
+#boardload button,#boardload p,#offcanvasLabel{
+    margin: 11px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bolder;
+}
 .offcanvas.offcanvas-start{
     border-top: 2px solid #ffffff;
     border-right: 2px solid #7B7B7B;
@@ -141,6 +166,7 @@ table{
     border-left: 2px solid #ffffff;
     background-color: #C0C0C0;
     width: fit-content;
+    width: 300px;
 }
 button{
     border-top: 2px solid #ffffff !important;
@@ -150,3 +176,40 @@ button{
     background-color: #C0C0C0 !important;
     border-radius: 0% !important;
 }
+#boardopen:hover,#nehezseg_span:hover,#startGomb:hover,#nehezseg_span_kivalasztott:hover,button:hover{
+    border-top: 2px solid black !important;
+    border-right: 2px solid black !important;
+    border-bottom: 2px solid black !important;
+    border-left: 2px solid black !important;
+}
+#leaderboardsave{
+    height: 90px !important;
+    flex-grow: 0 !important;
+}
+#boardload{
+    flex-grow: 0 !important;
+    height: 100%;
+}
+#offcanvasLabel1{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+}
+#db_data{
+    overflow-y: scroll;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bolder;
+}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+::-webkit-scrollbar-thumb {
+    background: red; 
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: lime;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  } 

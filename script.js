@@ -1,6 +1,7 @@
+
 var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
 document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
-var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];
+var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];var loaded = 0;
 //menu,tábla generálás
 function setTimer () {
     
@@ -22,7 +23,7 @@ function main_head_gen(){
 }
 function gomb_kivalasztas(elem)
 {
-    if(ingame == false){
+    if(ingame == false && (document.getElementsByClassName("offcanvas")[0].className !="offcanvas show offcanvas-start" || loaded == 0)){
         /*let nehezseg_divGyerekek = document.getElementById("nehezseg_div").childNodes;
         for(let i = 0; i<nehezseg_divGyerekek.length;i++)
         {      
@@ -31,13 +32,15 @@ function gomb_kivalasztas(elem)
         elem.className+="gomb_kivalasztva";*/
         let nehezseg_span_kivalasztott = document.getElementById("nehezseg_span_kivalasztott");
         nehezseg_span_kivalasztott.innerText = elem.innerText;
+        let parameter_divGyerekek = document.getElementById("parameter_div").childNodes;
         if(elem.id=="egyeniGomb")
         {
+            parameter_divGyerekek[0].value=null;parameter_divGyerekek[1].value=null;parameter_divGyerekek[2].value=null;
             document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";}
         else
         {
             document.getElementById("bombaBe").style.display="none";document.getElementById("magBe").style.display="none";document.getElementById("szelBe").style.display="none";
-            let parameter_divGyerekek = document.getElementById("parameter_div").childNodes;
+            
             for(let i = 0; i<parameter_divGyerekek.length;i++)
             {      
                 parameter_divGyerekek[i].style.display="none";
@@ -60,14 +63,18 @@ function gomb_kivalasztas(elem)
     }
 }
 function menu_gen(){
+    let menu_start_div = document.createElement("div"); menu_start_div.id = "menu_start_div";
+    let boardopen = document.createElement("span");boardopen.innerText="Leaderboard";boardopen.id="boardopen";boardopen.setAttribute("onclick","Open_Close()"); document.body.appendChild(boardopen);
+    menu.appendChild(boardopen);
+    menu.appendChild(menu_start_div);
     let nehezseg_span = document.createElement("span");
     nehezseg_span.innerText="Nehézség";
     nehezseg_span.id="nehezseg_span";
-    menu.appendChild(nehezseg_span);
+    menu_start_div.appendChild(nehezseg_span);
 
     let nehezseg_span_kivalasztott = document.createElement("span");
     nehezseg_span_kivalasztott.id="nehezseg_span_kivalasztott";
-    menu.appendChild(nehezseg_span_kivalasztott);
+    menu_start_div.appendChild(nehezseg_span_kivalasztott);
 
     let nehezseg_div_dropdown = document.createElement("div");
     nehezseg_div_dropdown.id="nehezseg_div_dropdown";
@@ -78,7 +85,7 @@ function menu_gen(){
     startGomb.innerText="Indítás";
     startGomb.setAttribute("onclick","Load()");
     startGomb.setAttribute("disabled","true");
-    menu.appendChild(startGomb);
+    menu_start_div.appendChild(startGomb);
 
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
@@ -158,7 +165,7 @@ function tabla_gen(){
             var img = document.createElement("img");
             img.id = (index*szel)+index1+1;img.src = "img/fedett.png";img.setAttribute("onclick","felfedes(this)");
             img.addEventListener('contextmenu', function(ev) {
-                if(ingame == true)
+                if(ingame == true && this.zaszlo != 3)
                 {
                     if(this.zaszlo == null || this.zaszlo == 0){
                         zaszlok.push(this.id);
@@ -251,7 +258,7 @@ function Rekurziv_felfedes(x,y,z){
 }
 function felfedes(item){
     if (timer == null) setTimer();
-    if (ingame == true) {
+    if (ingame == true && item.zaszlo!=1) {
         if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0) {
             Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1,0);}
         else if(matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == -1){
@@ -299,20 +306,35 @@ function Vege(win){
 function canvasMod(vegStatusz)
 {
     let offcanvas = document.getElementsByClassName("offcanvas")[0];
-    let offcanvasTitle = document.getElementsByClassName("offcanvas-title")[0];
+    var offcanvasTitle = document.getElementById("offcanvasLabel1");
     let offcanvasBody = document.getElementsByClassName("offcanvas-body")[0];
     let offcanvasP = document.getElementById("offcanvas_body-p");
     offcanvas.className = "offcanvas show offcanvas-start"
     if(vegStatusz ==true)
     {
         offcanvasTitle.innerText = "Nyertél!";
-        offcanvasP.innerText ="Idő: "+document.getElementById("time_disp").innerText;
+        offcanvasP.innerText ="Idő: "+parseInt(document.getElementById("time_disp").innerText)+" másodperc!";
+        if (document.getElementById("nehezseg_span_kivalasztott").innerText != "Egyéni") {
+            document.getElementById("leaderboardsave").style.display ="block";
+        }
     }
     else
     {
         offcanvasTitle.innerText = "Vesztettél!";
-        offcanvasP.innerHTML ="Idő: "+document.getElementById("time_disp").innerText+"<br>";
-        offcanvasP.innerText +="Maradék bombák: "+document.getElementById("bomba_disp").innerText;
+        document.getElementById("leaderboardsave").style.display ="none";
+    }
+    if(offcanvas.className =="offcanvas offcanvas-start")
+    {
+        offcanvas.className ="offcanvas show  offcanvas-start"
+    }
+}
+function Open_Close(){
+    var offcanvas = document.getElementsByClassName("offcanvas")[0];
+    if(offcanvas.className =="offcanvas show offcanvas-start")
+    {
+        offcanvas.className ="offcanvas offcanvas-start"
+    }else{
+        offcanvas.className ="offcanvas show offcanvas-start"
     }
 }
 function canvasGen()
@@ -322,29 +344,35 @@ function canvasGen()
     board.innerHTML = ""+
     "<div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvas' aria-labelledby='offcanvasLabel'>"+
         "<div class='offcanvas-header'>"+
-            "<h5 class='offcanvas-title' id='offcanvasLabel'>Offcanvas</h5>"+
-            "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Reset()'></button>"+
+            "<h5 class='offcanvas-title' id='offcanvasLabel'>LEADERBOARD</h5>"+
+            "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Open_Close()'></button>"+
         "</div>"+
-        "<div class='offcanvas-body'>"+
+        "<h5 class='offcanvas-title' id='offcanvasLabel1'></h5>"+
+        "<div id='leaderboardsave' class='offcanvas-body'>"+
             "<p id='offcanvas_body-p'></p>"+
-            "<button type='button' class=' ' data-bs-dismiss='offcanvas' onclick='leaderboard()'>Ranglista</button>"+
+            "<input id='name' placeholder='Felhasználónév' type='Text'>"+
+            "<button type='button' data-bs-dismiss='offcanvas' id='save'>Mentés</button>"+
         "</div>"+
+        "<div id='boardload' class='offcanvas-body'>"+
+            "<p id='offcanvas_body-p'>Válassza ki melyik táblát szeretné betőlteni!</p>"+
+            "<button type='button' data-bs-dismiss='offcanvas' id='load_k'>Könnyű</button>"+
+            "<button type='button' data-bs-dismiss='offcanvas' id='load_h'>Haladó</button>"+
+            "<button type='button' data-bs-dismiss='offcanvas' id='load_n'>Nehéz</button>"+
+            "<div id='db_data'></div>"
+    "</div>"+
     "</div>";
     target.parentNode.insertBefore(board, target) ;
-}
-function leaderboard(){
-
+    document.getElementById("leaderboardsave").style.display ="none";
 }
 function Reset(){
+    loaded = 0;
+    document.getElementById("offcanvasLabel1").innerText="";
+    document.getElementById("leaderboardsave").style.display ="none";
     clearInterval(timer);timer = null;elapsedTime = 0;
     div_head.innerHTML = "";div.innerHTML = "";matrix = [];lerakottbombak = [];bejart = [];zaszlok = []; 
     ingame = false;
     div_head.innerHTML = "";div.innerHTML = "";
     let offcanvas = document.getElementsByClassName("offcanvas")[0];
-    if(offcanvas.className =="offcanvas show offcanvas-start")
-    {
-        offcanvas.className ="offcanvas offcanvas-start"
-    }
     div.style.display = "none";
 }
 function Load(){
@@ -356,6 +384,7 @@ function Load(){
         document.getElementById('bomba_disp').innerText = bomba.toString().padStart(3, '0');
         div.style.display = "block";        
         ingame = true;
+        loaded = 1;
     }
 }
 menu_gen();canvasGen();
