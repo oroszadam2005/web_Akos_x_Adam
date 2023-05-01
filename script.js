@@ -1,4 +1,3 @@
-
 var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
 document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
 var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];var loaded = 0;
@@ -344,7 +343,8 @@ function canvasGen()
 {
     const target = document.querySelector('#script');
     var board = document.createElement("div");board.id = "board";
-    board.innerHTML = ""+
+    board.innerHTML = 
+    ""+
     "<div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvas' aria-labelledby='offcanvasLabel'>"+
         "<div class='offcanvas-header'>"+
             "<h5 class='offcanvas-title' id='offcanvasLabel'>LEADERBOARD</h5>"+
@@ -353,7 +353,7 @@ function canvasGen()
         "<h5 class='offcanvas-title' id='offcanvasLabel1'></h5>"+
         "<div id='leaderboardsave' class='offcanvas-body'>"+
             "<p id='offcanvas_body-p'></p>"+
-            "<input id='name' placeholder='Felhasználónév' type='Text'>"+
+            "<input id='name' minlength='3' maxlength='15' placeholder='Felhasználónév' type='Text'>"+
             "<button type='button' data-bs-dismiss='offcanvas' id='save'>Mentés</button>"+
         "</div>"+
         "<div id='boardload' class='offcanvas-body'>"+
@@ -362,7 +362,7 @@ function canvasGen()
             "<button type='button' data-bs-dismiss='offcanvas' id='load_h'>Haladó</button>"+
             "<button type='button' data-bs-dismiss='offcanvas' id='load_n'>Nehéz</button>"+
             "<div id='db_data'></div>"
-    "</div>"+
+        "</div>"+
     "</div>";
     target.parentNode.insertBefore(board, target) ;
     document.getElementById("leaderboardsave").style.display ="none";

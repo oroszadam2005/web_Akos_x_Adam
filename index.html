@@ -10,54 +10,7 @@
     <title>Aknakereső</title>
 </head>
 <body>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-        import { getFirestore , collection, addDoc ,getDocs,doc,query, orderBy,} from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js'
-        const firebaseConfig = {
-          apiKey: "AIzaSyBC8Q-y7I55ktm7xh_Jk5XeugXFNi1zSP0",
-          authDomain: "aknakereso-c11ac.firebaseapp.com",
-          projectId: "aknakereso-c11ac",
-          storageBucket: "aknakereso-c11ac.appspot.com",
-          messagingSenderId: "670407313761",
-          appId: "1:670407313761:web:90d809efba4f60d363dd20"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        var saveddata;
-        async function save_data(){
-            var mode = document.getElementById("nehezseg_span_kivalasztott").innerText;
-            var name = document.getElementById("name").value;
-            const docRef = await addDoc(collection(db, mode), {
-                name:name,ido:parseInt(document.getElementById("time_disp").innerText)+1,mode:mode
-            });
-            document.getElementById("leaderboardsave").style.display = "none";
-            console.log("Succesfull!",name,parseInt(document.getElementById("time_disp").innerText),mode);
-            saveddata = docRef.id;
-            console.log(saveddata);
-            get_data(mode);
-        }
-        async function get_data(mode){
-            document.getElementById("db_data").innerHTML = mode+":";
-            const ref = collection(db, mode);
-            const query1 = query(ref, orderBy("ido", "asc"));
-            const data = await getDocs(query1);
-            var i = 0;
-            data.forEach((doc) => {
-                i++;
-                console.log(doc.id,saveddata);
-                if (doc.id == saveddata) {
-                    document.getElementById("db_data").innerHTML +="</br><span id='flag'>"+i +", Név: "+doc.data().name+" | Idő: "+doc.data().ido+" sec</span>";
-                }else{
-                    document.getElementById("db_data").innerHTML +="</br>"+i +", Név: "+doc.data().name+" | Idő: "+doc.data().ido+" sec";
-                }
-                console.log(doc.data());
-            });
-        }
-        document.getElementById("save").addEventListener("click",() => save_data());
-        document.getElementById("load_k").addEventListener("click",() => get_data("Könnyű"));
-        document.getElementById("load_h").addEventListener("click",() => get_data("Haladó"));
-        document.getElementById("load_n").addEventListener("click",() => get_data("Nehéz"));  
-      </script>
+    <script type="module" src="app.js"></script>
     <script id ="script" src="script.js"></script>
 </body>
 </html>

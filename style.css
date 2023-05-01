@@ -152,9 +152,12 @@ table{
 }
 #flag{
     color: red;
+    font-size: 20px;
+    text-align: center;
 }
 #boardload button,#boardload p,#offcanvasLabel{
-    margin: 11px;
+    margin-left: 13px;
+    margin-right: 13px;
     text-align: center;
     font-size: 15px;
     font-weight: bolder;
@@ -176,6 +179,9 @@ button{
     background-color: #C0C0C0 !important;
     border-radius: 0% !important;
 }
+#board button{
+    width: 55px;
+}
 #boardopen:hover,#nehezseg_span:hover,#startGomb:hover,#nehezseg_span_kivalasztott:hover,button:hover{
     border-top: 2px solid black !important;
     border-right: 2px solid black !important;
@@ -185,6 +191,8 @@ button{
 #leaderboardsave{
     height: 90px !important;
     flex-grow: 0 !important;
+    margin: 15px;
+    text-align: center;
 }
 #boardload{
     flex-grow: 0 !important;
@@ -197,6 +205,7 @@ button{
     font-weight: bolder;
 }
 #db_data{
+    margin-top: 8px;
     overflow-y: scroll;
     text-align: center;
     font-size: 15px;
@@ -215,3 +224,14 @@ button{
   ::-webkit-scrollbar-track {
     background: #f1f1f1; 
   } 
+.offcanvas-body {
+    padding: 1px !important;
+}
+#leaderboardtable{
+    word-break:normal;
+}
+#leaderboardtable td{
+    margin: 1px;
+    width: 0.1%;
+    word-break:normal;
+}
