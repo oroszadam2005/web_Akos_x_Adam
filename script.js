@@ -101,7 +101,7 @@ function menu_gen(){
     haladoGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     haladoGomb.dataset.mag=20;
     haladoGomb.dataset.szel=20;
-    haladoGomb.dataset.bomba=1;
+    haladoGomb.dataset.bomba=50;
     nehezseg_div_dropdown.appendChild(haladoGomb);
 
     let nehezGomb = document.createElement("button");
