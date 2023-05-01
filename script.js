@@ -101,16 +101,16 @@ function menu_gen(){
     haladoGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     haladoGomb.dataset.mag=20;
     haladoGomb.dataset.szel=20;
-    haladoGomb.dataset.bomba=10;
+    haladoGomb.dataset.bomba=1;
     nehezseg_div_dropdown.appendChild(haladoGomb);
 
     let nehezGomb = document.createElement("button");
     nehezGomb.id="nehezGomb";
     nehezGomb.innerText="Nehéz";
     nehezGomb.setAttribute("onClick","gomb_kivalasztas(this)");
-    nehezGomb.dataset.mag=50;
-    nehezGomb.dataset.szel=50;
-    nehezGomb.dataset.bomba=200;
+    nehezGomb.dataset.mag=40;
+    nehezGomb.dataset.szel=40;
+    nehezGomb.dataset.bomba=100;
     nehezseg_div_dropdown.appendChild(nehezGomb);
 
     let egyeniGomb = document.createElement("button");
@@ -214,6 +214,9 @@ function matrix1(){
     }
 }
 function Rekurziv_felfedes(x,y,z){
+    if (bejart.length == (szel*mag)-bomba) {
+        document.getElementById("reset_img_disp").src="img/nyert.png";
+        setTimeout(Vege(true),100)}
     if (matrix[x][y] != -1) {
         var item = document.getElementById((x*szel)+y+1);
         if(item.zaszlo==1){  
@@ -253,9 +256,6 @@ function Rekurziv_felfedes(x,y,z){
         if (x-1 >= 0 && y+1 < szel && bejart.includes(((x-1)*szel)+y+1) == false) {
             bejart.push(((x-1)*szel)+y+1);
             setTimeout(Rekurziv_felfedes,5,x-1,y+1,z);} 
-        if (bejart.length == (szel*mag)-bomba) {
-            document.getElementById("reset_img_disp").src="img/nyert.png";
-            setTimeout(Vege(true),100)}
     }
 }
 function felfedes(item){
@@ -271,7 +271,7 @@ function felfedes(item){
             Vege(false);}
         else{
             bejart.push(item.id);
-            item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 2;}
+            item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 3;}
         if (bejart.length == (szel*mag)-bomba) {
             document.getElementById("reset_img_disp").src="img/nyert.png";
             setTimeout(Vege(true),100);
