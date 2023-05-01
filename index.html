@@ -28,7 +28,7 @@
             var mode = document.getElementById("nehezseg_span_kivalasztott").innerText;
             var name = document.getElementById("name").value;
             const docRef = await addDoc(collection(db, mode), {
-                name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode
+                name:name,ido:parseInt(document.getElementById("time_disp").innerText)+1,mode:mode
             });
             document.getElementById("leaderboardsave").style.display = "none";
             console.log("Succesfull!",name,parseInt(document.getElementById("time_disp").innerText),mode);

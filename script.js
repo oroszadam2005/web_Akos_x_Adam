@@ -23,7 +23,7 @@ function main_head_gen(){
 }
 function gomb_kivalasztas(elem)
 {
-    if(ingame == false && (document.getElementsByClassName("offcanvas")[0].className !="offcanvas show offcanvas-start" || loaded == 0)){
+    if(ingame == false && document.getElementById("leaderboardsave").style.display =="none"){
         /*let nehezseg_divGyerekek = document.getElementById("nehezseg_div").childNodes;
         for(let i = 0; i<nehezseg_divGyerekek.length;i++)
         {      
@@ -254,6 +254,9 @@ function Rekurziv_felfedes(x,y,z){
         if (x-1 >= 0 && y+1 < szel && bejart.includes(((x-1)*szel)+y+1) == false) {
             bejart.push(((x-1)*szel)+y+1);
             setTimeout(Rekurziv_felfedes,5,x-1,y+1,z);} 
+        if (bejart.length == (szel*mag)-bomba) {
+            document.getElementById("reset_img_disp").src="img/nyert.png";
+            setTimeout(Vege(true),100)}
     }
 }
 function felfedes(item){

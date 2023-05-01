@@ -189,6 +189,7 @@ button{
 #boardload{
     flex-grow: 0 !important;
     height: 100%;
+    overflow-y: hidden;
 }
 #offcanvasLabel1{
     text-align: center;
@@ -200,6 +201,7 @@ button{
     text-align: center;
     font-size: 15px;
     font-weight: bolder;
+    height: 85%;
 }
 ::-webkit-scrollbar {
     width: 10px;
