@@ -235,14 +235,14 @@ function tabla_gen(){
                 ev.preventDefault();
             })
             img.addEventListener("mouseenter",function(ev){
-                if(ingame == true && this.zaszlo != 1 && lenyomvaJobb&&lenyomvaBal)
+                if(ingame == true &&  lenyomvaJobb&&lenyomvaBal)
                 {
                     x_ray(this,"img/0.png");
                 }
                 ev.preventDefault();
             })
             img.addEventListener("mouseleave",function(ev){
-                if(ingame == true && this.zaszlo != 1&&lenyomvaJobb&&lenyomvaBal)
+                if(ingame == true &&lenyomvaJobb&&lenyomvaBal)
                 {
                     x_ray(this,"img/fedett.png");
                 }
