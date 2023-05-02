@@ -143,15 +143,42 @@ function menu_gen(){
 }
 var lenyomvaBal = false;
 var lenyomvaJobb = false;
+var utolsoLenyomott;
+var duplalenyomott = null;
+function x_ray(item,src){
+    console.log(item,"-----",src);
+    var x = Math.ceil(item.id/szel)-1
+    var y = (item.id-(Math.ceil(item.id/szel)-1)*szel)-1
+    for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+            if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel)) {
+                if(!document.getElementById(((x+i)*szel)+(y+j)+1).felfedett&&document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1){
+                    document.getElementById(((x+i)*szel)+(y+j)+1).src = src;
+                }
+            }
+        }    
+    }
+};
+document.addEventListener('mousemove', e => {
+    utolsoLenyomott = document.elementFromPoint(e.clientX, e.clientY)
+  }, {passive: true})
 window.addEventListener("mouseup",function(ev){
     var ev = ev || window.event;
     if(ev.button == 0)
     {
         lenyomvaBal = false;
+        if(lenyomvaJobb)
+        {  
+            x_ray(utolsoLenyomott,"img/fedett.png");     
+        }
     }
     else if(ev.button == 2)
     {
         lenyomvaJobb = false;
+        if(lenyomvaBal)
+        {
+            x_ray(utolsoLenyomott,"img/fedett.png");
+        }
     }
 })
 function tabla_gen(){
@@ -165,96 +192,59 @@ function tabla_gen(){
             img.id = (index*szel)+index1+1;img.src = "img/fedett.png";img.setAttribute("onclick","felfedes(this)");
             img.dataset.felfedett = false;
             img.addEventListener('contextmenu', function(ev) {
-                if(ingame == true && !this.felfedett)
-                {
-                    if(this.zaszlo == null || this.zaszlo == 0){
-                        zaszlok.push(this.id);
-                        this.zaszlo = 1;this.src = "img/zaszlo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
-                    else if(this.zaszlo == 1){
-                        zaszlok.splice(zaszlok.indexOf(this.id),1);
-                        this.zaszlo = 2;this.src = "img/kerdo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
-                    else if(this.zaszlo == null || this.zaszlo == 2 )
-                    {
-                        this.zaszlo = 0;this.src = "img/fedett.png";
-                    }
-                }
                 ev.preventDefault();
                 return false;
             }, false);
             img.addEventListener("mousedown",function(ev){
-                if(ingame == true && this.zaszlo != 3)
+                if(ev.button == 2) // Jobb
+                {
+                    if(ingame == true && !this.felfedett)
+                    {
+                        if(this.zaszlo == null || this.zaszlo == 0){
+                            zaszlok.push(this.id);
+                            this.zaszlo = 1;this.src = "img/zaszlo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                        else if(this.zaszlo == 1){
+                            zaszlok.splice(zaszlok.indexOf(this.id),1);
+                            this.zaszlo = 2;this.src = "img/kerdo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                        else if(this.zaszlo == null || this.zaszlo == 2 )
+                        {
+                            this.zaszlo = 0;this.src = "img/fedett.png";
+                        }
+                    }
+                }
+                if(ingame == true)
                 {
                     var ev = ev || window.event;
                     if(ev.button == 0) // Bal
                     {
                         lenyomvaBal = true;
-                        console.log("Bal lenyomva");
-                        console.log(lenyomvaBal);
-                        console.log(lenyomvaJobb);
                         if(lenyomvaJobb)
                         {
-                            console.log("Beléptem");
-                            this.src = "img/0.png";
+                            x_ray(utolsoLenyomott,"img/0.png");
                         }
                     }
                     else if(ev.button == 2) // Jobb
                     {
                         lenyomvaJobb = true;
-                        console.log("Jobb lenyomva");
-                        console.log(lenyomvaBal);
-                        console.log(lenyomvaJobb);
                         if(lenyomvaBal)
                         {
-                            console.log("Beléptem");
-                            this.src = "img/0.png";
+                            x_ray(utolsoLenyomott,"img/0.png");
                         }
                     }
                 }
                 ev.preventDefault();
             })
-            img.addEventListener("mouseleave",function(ev){
-                if(ingame == true && this.zaszlo != 3&&lenyomvaJobb&&lenyomvaBal)
+            img.addEventListener("mouseenter",function(ev){
+                if(ingame == true && this.zaszlo != 1 && lenyomvaJobb&&lenyomvaBal)
                 {
-                    this.src = "img/fedett.png";
-                    if(Number(this.id)+1<szel*mag&&Number(this.id)+1<szel*(Math.ceil(Number(this.id)/szel))+1) //Jobb
-                        document.getElementById(Number(this.id)+1).src = "img/fedett.png";
-                    if(Number(this.id)-1>0&&Number(this.id)-1>szel*(Math.floor(Number(this.id)/szel))) //Bal
-                        document.getElementById(Number(this.id)-1).src = "img/fedett.png";
-                    if(Number(this.id)-Number(szel)>0) //Fent
-                        document.getElementById(Number(this.id)-Number(szel)).src = "img/fedett.png";
-                    if(Number(this.id)+Number(szel)<szel*mag) //Lent
-                        document.getElementById(Number(this.id)+Number(szel)).src = "img/fedett.png";
-                        if(Number(this.id)-Number(szel)+1>0&&Number(this.id)-Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)-1)+1) //Jobb Fent
-                        document.getElementById(Number(this.id)-Number(szel)+1).src = "img/fedett.png";
-                    if(Number(this.id)-Number(szel)-1>0&&Number(this.id)-Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)-1))//Bal Fent
-                        document.getElementById(Number(this.id)-Number(szel)-1).src = "img/fedett.png";
-                        if(Number(this.id)+Number(szel)+1<szel*mag&&Number(this.id)+Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)+1)+1)//Jobb Lent
-                        document.getElementById(Number(this.id)+Number(szel)+1).src = "img/fedett.png";
-                    if(Number(this.id)+Number(szel)-1<szel*mag&&Number(this.id)+Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)+1))//Bal Lent
-                        document.getElementById(Number(this.id)+Number(szel)-1).src = "img/fedett.png";
-                    }
+                    x_ray(this,"img/0.png");
+                }
                 ev.preventDefault();
             })
-            img.addEventListener("mouseenter",function(ev){
-                if(ingame == true && this.zaszlo != 3 && lenyomvaJobb&&lenyomvaBal)
+            img.addEventListener("mouseleave",function(ev){
+                if(ingame == true && this.zaszlo != 1&&lenyomvaJobb&&lenyomvaBal)
                 {
-                    this.src = "img/0.png";
-                    if(Number(this.id)+1<szel*mag&&Number(this.id)+1<szel*(Math.ceil(Number(this.id)/szel))+1) //Jobb
-                        document.getElementById(Number(this.id)+1).src = "img/0.png";
-                    if(Number(this.id)-1>0&&Number(this.id)-1>szel*(Math.floor(Number(this.id)/szel))) //Bal
-                        document.getElementById(Number(this.id)-1).src = "img/0.png";
-                    if(Number(this.id)-Number(szel)>0) //Fent
-                        document.getElementById(Number(this.id)-Number(szel)).src = "img/0.png";
-                    if(Number(this.id)+Number(szel)<szel*mag) //Lent
-                        document.getElementById(Number(this.id)+Number(szel)).src = "img/0.png";
-                    if(Number(this.id)-Number(szel)+1>0&&Number(this.id)-Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)-1)+1) //Jobb Fent
-                        document.getElementById(Number(this.id)-Number(szel)+1).src = "img/0.png";
-                    if(Number(this.id)-Number(szel)-1>0&&Number(this.id)-Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)-1))//Bal Fent
-                        document.getElementById(Number(this.id)-Number(szel)-1).src = "img/0.png";
-                    if(Number(this.id)+Number(szel)+1<szel*mag&&Number(this.id)+Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)+1)+1)//Jobb Lent
-                        document.getElementById(Number(this.id)+Number(szel)+1).src = "img/0.png";
-                    if(Number(this.id)+Number(szel)-1<szel*mag&&Number(this.id)+Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)+1))//Bal Lent
-                        document.getElementById(Number(this.id)+Number(szel)-1).src = "img/0.png";
+                    x_ray(this,"img/fedett.png");
                 }
                 ev.preventDefault();
             })
@@ -311,7 +301,7 @@ function felfedes(item){
             ingame = false;
             Vege(false);
         }
-        else if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0 && !lerakottbombak.includes(item.id)) {
+        else if (!item.felfedett && matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0 && !lerakottbombak.includes(item.id)) {
             console.clear();
             Rekurziv_felfedes(Number(Math.ceil(item.id/szel)-1),Number((item.id-(Math.ceil(item.id/szel)-1)*szel)-1));
         }
