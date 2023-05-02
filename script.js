@@ -154,6 +154,19 @@ function menu_gen(){
     parameter_div.appendChild(bombaBe);
 }
 //Zaszlo ertekek: 0 fedett, 1 zaszlo, 2 kerdojel, 3 felfedve, 4 legutolso bomba amire ra nyomtál
+var lenyomvaBal = false;
+var lenyomvaJobb = false;
+window.addEventListener("mouseup",function(ev){
+    var ev = ev || window.event;
+    if(ev.button == 0)
+    {
+        lenyomvaBal = false;
+    }
+    else if(ev.button == 2)
+    {
+        lenyomvaJobb = false;
+    }
+})
 function tabla_gen(){
     var table = document.createElement("table");
     div.appendChild(table);
@@ -180,6 +193,92 @@ function tabla_gen(){
                 ev.preventDefault();
                 return false;
             }, false);
+            img.addEventListener("mousedown",function(ev){
+                if(ingame == true && this.zaszlo != 3)
+                {
+                    var ev = ev || window.event;
+                    if(ev.button == 0) // Bal
+                    {
+                        lenyomvaBal = true;
+                        console.log("Bal lenyomva");
+                        console.log(lenyomvaBal);
+                        console.log(lenyomvaJobb);
+                        if(lenyomvaJobb)
+                        {
+                            console.log("Beléptem");
+                            this.src = "img/0.png";
+                        }
+                    }
+                    else if(ev.button == 2) // Jobb
+                    {
+                        lenyomvaJobb = true;
+                        console.log("Jobb lenyomva");
+                        console.log(lenyomvaBal);
+                        console.log(lenyomvaJobb);
+                        if(lenyomvaBal)
+                        {
+                            console.log("Beléptem");
+                            this.src = "img/0.png";
+                        }
+                    }
+                }
+                ev.preventDefault();
+            })
+            img.addEventListener("mouseleave",function(ev){
+                if(ingame == true && this.zaszlo != 3&&lenyomvaJobb&&lenyomvaBal)
+                {
+                    this.src = "img/fedett.png";
+                    if(Number(this.id)+1<szel*mag&&Number(this.id)+1<szel*(Math.ceil(Number(this.id)/szel))+1) //Jobb
+                        document.getElementById(Number(this.id)+1).src = "img/fedett.png";
+                    if(Number(this.id)-1>0&&Number(this.id)-1>szel*(Math.floor(Number(this.id)/szel))) //Bal
+                        document.getElementById(Number(this.id)-1).src = "img/fedett.png";
+                    if(Number(this.id)-Number(szel)>0) //Fent
+                        document.getElementById(Number(this.id)-Number(szel)).src = "img/fedett.png";
+                    if(Number(this.id)+Number(szel)<szel*mag) //Lent
+                        document.getElementById(Number(this.id)+Number(szel)).src = "img/fedett.png";
+                        if(Number(this.id)-Number(szel)+1>0&&Number(this.id)-Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)-1)+1) //Jobb Fent
+                        document.getElementById(Number(this.id)-Number(szel)+1).src = "img/fedett.png";
+                    if(Number(this.id)-Number(szel)-1>0&&Number(this.id)-Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)-1))//Bal Fent
+                        document.getElementById(Number(this.id)-Number(szel)-1).src = "img/fedett.png";
+                        if(Number(this.id)+Number(szel)+1<szel*mag&&Number(this.id)+Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)+1)+1)//Jobb Lent
+                        document.getElementById(Number(this.id)+Number(szel)+1).src = "img/fedett.png";
+                    if(Number(this.id)+Number(szel)-1<szel*mag&&Number(this.id)+Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)+1))//Bal Lent
+                        document.getElementById(Number(this.id)+Number(szel)-1).src = "img/fedett.png";
+                    }
+                ev.preventDefault();
+            })
+            img.addEventListener("mouseenter",function(ev){
+                if(ingame == true && this.zaszlo != 3 && lenyomvaJobb&&lenyomvaBal)
+                {
+                    this.src = "img/0.png";
+                    if(Number(this.id)+1<szel*mag&&Number(this.id)+1<szel*(Math.ceil(Number(this.id)/szel))+1) //Jobb
+                        document.getElementById(Number(this.id)+1).src = "img/0.png";
+                    if(Number(this.id)-1>0&&Number(this.id)-1>szel*(Math.floor(Number(this.id)/szel))) //Bal
+                        document.getElementById(Number(this.id)-1).src = "img/0.png";
+                    if(Number(this.id)-Number(szel)>0) //Fent
+                        document.getElementById(Number(this.id)-Number(szel)).src = "img/0.png";
+                    if(Number(this.id)+Number(szel)<szel*mag) //Lent
+                        document.getElementById(Number(this.id)+Number(szel)).src = "img/0.png";
+                    if(Number(this.id)-Number(szel)+1>0&&Number(this.id)-Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)-1)+1) //Jobb Fent
+                        document.getElementById(Number(this.id)-Number(szel)+1).src = "img/0.png";
+                    if(Number(this.id)-Number(szel)-1>0&&Number(this.id)-Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)-1))//Bal Fent
+                        document.getElementById(Number(this.id)-Number(szel)-1).src = "img/0.png";
+                    if(Number(this.id)+Number(szel)+1<szel*mag&&Number(this.id)+Number(szel)+1<szel*(Math.ceil(Number(this.id)/szel)+1)+1)//Jobb Lent
+                        document.getElementById(Number(this.id)+Number(szel)+1).src = "img/0.png";
+                    if(Number(this.id)+Number(szel)-1<szel*mag&&Number(this.id)+Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)+1))//Bal Lent
+                        document.getElementById(Number(this.id)+Number(szel)-1).src = "img/0.png";
+                    /*
+                    document.getElementById(Number(this.id)+1).src = "img/0.png";
+                    document.getElementById(Number(this.id)-1).src = "img/0.png";
+                    document.getElementById(Number(this.id)-Number(szel)).src = "img/0.png";
+                    document.getElementById(Number(this.id)+Number(szel)).src = "img/0.png";
+                    document.getElementById(Number(this.id)-Number(szel)+1).src = "img/0.png";
+                    document.getElementById(Number(this.id)-Number(szel)-1).src = "img/0.png";
+                    document.getElementById(Number(this.id)+Number(szel)+1).src = "img/0.png";
+                    document.getElementById(Number(this.id)+Number(szel)-1).src = "img/0.png";*/
+                }
+                ev.preventDefault();
+            })
             td.appendChild(img);tr.appendChild(td);tmp.push(0);
         }
         matrix.push(tmp);table.appendChild(tr);

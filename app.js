@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getFirestore , collection, addDoc ,getDocs,limit,query, orderBy,} from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
+var debug = true; //Ha nem akarjuk hogy debug közbe lefusson
 var avalible = true;
 function is_avalible(){
     avalible = true;
@@ -49,4 +50,7 @@ async function get_data(mode){
     }
 
 }
-document.getElementById("save").addEventListener("click",() => save_data());document.getElementById("load_k").addEventListener("click",() => get_data("Könnyű"));document.getElementById("load_h").addEventListener("click",() => get_data("Haladó"));document.getElementById("load_n").addEventListener("click",() => get_data("Nehéz"));  
+if(!debug)
+{
+    document.getElementById("save").addEventListener("click",() => save_data());document.getElementById("load_k").addEventListener("click",() => get_data("Könnyű"));document.getElementById("load_h").addEventListener("click",() => get_data("Haladó"));document.getElementById("load_n").addEventListener("click",() => get_data("Nehéz"));  
+}
