@@ -22,7 +22,7 @@ async function save_data(){
         document.getElementById("leaderboardsave").style.display = "none";saveddata = docRef.id;
         get_data(mode);
         avalible = false;
-        setTimeout(is_avalible,10000);
+        setTimeout(is_avalible,3000);
     }
 }
 async function get_data(mode){  
@@ -45,7 +45,7 @@ async function get_data(mode){
             tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);table.appendChild(tr);
         });
         avalible = false;
-        setTimeout(is_avalible,10000);
+        setTimeout(is_avalible,3000);
     }
 
 }
