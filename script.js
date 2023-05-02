@@ -1,9 +1,8 @@
 var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
 document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
-var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = [];var ingame = false;var timer;var elapsedTime; var zaszlok = [];var loaded = 0;
+var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = 0;var ingame = false;var timer;var elapsedTime; var zaszlok = [];var loaded = 0;
 //menu,tábla generálás
 function setTimer () {
-    
     timer = setInterval(function(){
       elapsedTime += 1;
       document.getElementById('time_disp').innerText = elapsedTime.toString().padStart(3, '0');
@@ -22,43 +21,35 @@ function main_head_gen(){
 }
 function gomb_kivalasztas(elem)
 {
-    if(ingame == false && document.getElementById("leaderboardsave").style.display =="none"){
-        /*let nehezseg_divGyerekek = document.getElementById("nehezseg_div").childNodes;
-        for(let i = 0; i<nehezseg_divGyerekek.length;i++)
+    let nehezseg_span_kivalasztott = document.getElementById("nehezseg_span_kivalasztott");
+    nehezseg_span_kivalasztott.innerText = elem.innerText;
+    let parameter_divGyerekek = document.getElementById("parameter_div").childNodes;
+    if(elem.id=="egyeniGomb")
+    {
+        parameter_divGyerekek[0].value=null;parameter_divGyerekek[1].value=null;parameter_divGyerekek[2].value=null;
+        document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";}
+    else
+    {
+        document.getElementById("bombaBe").style.display="none";document.getElementById("magBe").style.display="none";document.getElementById("szelBe").style.display="none";
+        
+        for(let i = 0; i<parameter_divGyerekek.length;i++)
         {      
-            nehezseg_divGyerekek[i].className ="";
+            parameter_divGyerekek[i].style.display="none";
+            if(i ==0)
+            {
+                parameter_divGyerekek[i].value=elem.dataset.szel}
+            else if(i==1)
+            {
+                parameter_divGyerekek[i].value=elem.dataset.mag}
+            else
+            {
+                parameter_divGyerekek[i].value=elem.dataset.bomba}
         }
-        elem.className+="gomb_kivalasztva";*/
-        let nehezseg_span_kivalasztott = document.getElementById("nehezseg_span_kivalasztott");
-        nehezseg_span_kivalasztott.innerText = elem.innerText;
-        let parameter_divGyerekek = document.getElementById("parameter_div").childNodes;
-        if(elem.id=="egyeniGomb")
-        {
-            parameter_divGyerekek[0].value=null;parameter_divGyerekek[1].value=null;parameter_divGyerekek[2].value=null;
-            document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";}
-        else
-        {
-            document.getElementById("bombaBe").style.display="none";document.getElementById("magBe").style.display="none";document.getElementById("szelBe").style.display="none";
-            
-            for(let i = 0; i<parameter_divGyerekek.length;i++)
-            {      
-                parameter_divGyerekek[i].style.display="none";
-                if(i ==0)
-                {
-                    parameter_divGyerekek[i].value=elem.dataset.szel}
-                else if(i==1)
-                {
-                    parameter_divGyerekek[i].value=elem.dataset.mag}
-                else
-                {
-                    parameter_divGyerekek[i].value=elem.dataset.bomba}
-            }
-        }
-        let start = document.getElementById("startGomb")
-        if(start.disabled == true)
-        {
-            start.disabled = false
-        }
+    }
+    let start = document.getElementById("startGomb")
+    if(start.disabled == true)
+    {
+        start.disabled = false
     }
 }
 function menu_gen(){
@@ -92,7 +83,7 @@ function menu_gen(){
     konnyuGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     konnyuGomb.dataset.mag=9;
     konnyuGomb.dataset.szel=9;
-    konnyuGomb.dataset.bomba=10;
+    konnyuGomb.dataset.bomba=1;
     nehezseg_div_dropdown.appendChild(konnyuGomb);
 
     let haladoGomb = document.createElement("button");
@@ -129,7 +120,6 @@ function menu_gen(){
     szelBe.id = "szelBe";
     szelBe.setAttribute("placeholder","Szélesség");
     szelBe.setAttribute("onKeyDown","return false");
-    //szelBe.setAttribute("disabled","true");
     szelBe.style.display="none";
     parameter_div.appendChild(szelBe);
 
@@ -139,7 +129,6 @@ function menu_gen(){
     magBe.setAttribute("placeholder","Magasság");
     magBe.id="magBe";
     magBe.setAttribute("onKeyDown","return false");
-    //magBe.setAttribute("disabled","true");
     magBe.style.display="none";
     parameter_div.appendChild(magBe);
 
@@ -149,11 +138,9 @@ function menu_gen(){
     bombaBe.setAttribute("placeholder","Akna");
     bombaBe.id="bombaBe";
     bombaBe.setAttribute("onKeyDown","return false");
-    //bombaBe.setAttribute("disabled","true");
     bombaBe.style.display="none";
     parameter_div.appendChild(bombaBe);
 }
-//Zaszlo ertekek: 0 fedett, 1 zaszlo, 2 kerdojel, 3 felfedve, 4 legutolso bomba amire ra nyomtál
 var lenyomvaBal = false;
 var lenyomvaJobb = false;
 window.addEventListener("mouseup",function(ev){
@@ -168,7 +155,7 @@ window.addEventListener("mouseup",function(ev){
     }
 })
 function tabla_gen(){
-    var table = document.createElement("table");
+    var table = document.createElement("table"); table.id = "game";table.className = document.getElementById("nehezseg_span_kivalasztott").innerText;
     div.appendChild(table);
     for (let index = 0; index < mag; index++) {
         var tr = document.createElement("tr");var tmp = [];
@@ -176,13 +163,14 @@ function tabla_gen(){
             var td = document.createElement("td");
             var img = document.createElement("img");
             img.id = (index*szel)+index1+1;img.src = "img/fedett.png";img.setAttribute("onclick","felfedes(this)");
+            img.dataset.felfedett = false;
             img.addEventListener('contextmenu', function(ev) {
-                if(ingame == true && this.zaszlo != 3)
+                if(ingame == true && !this.felfedett)
                 {
                     if(this.zaszlo == null || this.zaszlo == 0){
                         zaszlok.push(this.id);
                         this.zaszlo = 1;this.src = "img/zaszlo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
-                    else if(this.zaszlo == null || this.zaszlo == 1){
+                    else if(this.zaszlo == 1){
                         zaszlok.splice(zaszlok.indexOf(this.id),1);
                         this.zaszlo = 2;this.src = "img/kerdo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
                     else if(this.zaszlo == null || this.zaszlo == 2 )
@@ -267,15 +255,6 @@ function tabla_gen(){
                         document.getElementById(Number(this.id)+Number(szel)+1).src = "img/0.png";
                     if(Number(this.id)+Number(szel)-1<szel*mag&&Number(this.id)+Number(szel)-1>szel*(Math.floor(Number(this.id)/szel)+1))//Bal Lent
                         document.getElementById(Number(this.id)+Number(szel)-1).src = "img/0.png";
-                    /*
-                    document.getElementById(Number(this.id)+1).src = "img/0.png";
-                    document.getElementById(Number(this.id)-1).src = "img/0.png";
-                    document.getElementById(Number(this.id)-Number(szel)).src = "img/0.png";
-                    document.getElementById(Number(this.id)+Number(szel)).src = "img/0.png";
-                    document.getElementById(Number(this.id)-Number(szel)+1).src = "img/0.png";
-                    document.getElementById(Number(this.id)-Number(szel)-1).src = "img/0.png";
-                    document.getElementById(Number(this.id)+Number(szel)+1).src = "img/0.png";
-                    document.getElementById(Number(this.id)+Number(szel)-1).src = "img/0.png";*/
                 }
                 ev.preventDefault();
             })
@@ -288,91 +267,62 @@ function tabla_gen(){
 function matrix1(){
     while(lerakottbombak.length != bomba){
         var rnd = Math.floor(Math.random()*(mag*szel)+1);
-        if (lerakottbombak.includes(rnd) == false) {
+        if (!lerakottbombak.includes(rnd)) {
             lerakottbombak.push(rnd);
             var x = Math.ceil(rnd/szel)-1
             var y = (rnd-(Math.ceil(rnd/szel)-1)*szel)-1
-            if (x-1 >= 0 && matrix[x-1][y] >= 0) {
-                matrix[x-1][y] ++;}
-            if (x+1 < mag && matrix[x+1][y] >= 0) {
-                matrix[x+1][y]++;}
-            if (y-1 >= 0 && matrix[x][y-1] >= 0) {
-                matrix[x][y-1]++;}
-            if (y+1 < szel && matrix[x][y+1] >= 0) {
-                matrix[x][y+1]++;}
-            if (x-1 >= 0 && y-1 >= 0 && matrix[x-1][y-1] >= 0) {
-                matrix[x-1][y-1] ++;}
-            if (x+1 < mag && y-1 >= 0 && matrix[x+1][y-1] >= 0) {
-                matrix[x+1][y-1] ++;}
-            if (x+1 < mag && y+1 < szel && matrix[x+1][y+1] >= 0) {
-                matrix[x+1][y+1] ++;}
-            if (x-1 >= 0 && y+1 < szel && matrix[x-1][y+1] >= 0) {
-                matrix[x-1][y+1] ++;}
+            for (let i=-1; i<=1; i++) {
+                for (let j=-1; j<=1; j++) {
+                    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
+                        matrix[x+i][y+j] ++;
+                    }
+                }    
+            }
             matrix[Math.ceil(rnd/szel)-1][(rnd-(Math.ceil(rnd/szel)-1)*szel)-1]= -1;
         }
     }
 }
-function Rekurziv_felfedes(x,y,z){
-    if (bejart.length == (szel*mag)-bomba) {
-        document.getElementById("reset_img_disp").src="img/nyert.png";
-        setTimeout(Vege(true),100)}
-    if (matrix[x][y] != -1) {
-        var item = document.getElementById((x*szel)+y+1);
-        if(item.zaszlo==1){  
-            z++;
-            bejart.splice(bejart.indexOf((x*szel)+y),1);
-        }else
-        {
-            item.src = "img/"+matrix[x][y]+".png";
-            item.zaszlo = 3;
+function Rekurziv_felfedes(x,y){
+    if (bejart == (szel*mag)-bomba) {
+        setTimeout(Vege(true),100);
+    }
+    var item = document.getElementById((x*szel)+y+1);
+    item.src = "img/"+matrix[x][y]+".png";
+    if (!item.felfedett) {
+        bejart++;
+    }
+    item.felfedett = true;
+    if (matrix[x][y]==0)  {
+        for (let i=-1; i<=1; i++) {
+            for (let j=-1; j<=1; j++) {
+                if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && matrix[x+i][y+j] != -1 &&!document.getElementById(((x+i)*szel)+(y+j)+1).felfedett && document.getElementById(((x+i)*szel)+y+j+1).zaszlo !=1) {
+                    Rekurziv_felfedes(x+i,y+j);
+                }
+            }    
         }
-        if (z > 1) {
-            return;
-        }
-        if (matrix[x][y]>0) {
-            return;}
-        if (x-1 >= 0 && bejart.includes(((x-1)*szel)+y) == false) {
-            bejart.push(((x-1)*szel)+y);
-            setTimeout(Rekurziv_felfedes,10,x-1,y,z);}
-        if (x+1 < mag && bejart.includes(((x+1)*szel)+y) == false) {
-            bejart.push(((x+1)*szel)+y);
-            setTimeout(Rekurziv_felfedes,10,x+1,y,z);}
-        if (y-1 >= 0 && bejart.includes((x*szel)+y-1) == false) {
-            bejart.push((x*szel)+y-1);
-            setTimeout(Rekurziv_felfedes,10,x,y-1,z);}
-        if (y+1 < szel && bejart.includes((x*szel)+y+1) == false) {
-            bejart.push((x*szel)+y+1);
-            setTimeout(Rekurziv_felfedes,10,x,y+1,z);}
-        if (x-1 >= 0 && y-1 >= 0 && bejart.includes(((x-1)*szel)+y-1) == false) {
-            bejart.push(((x-1)*szel)+y-1);
-            setTimeout(Rekurziv_felfedes,5,x-1,y-1,z);}
-        if (x+1 < mag && y-1 >= 0 && bejart.includes(((x+1)*szel)+y-1) == false) {
-            bejart.push(((x+1)*szel)+y-1);
-            setTimeout(Rekurziv_felfedes,5,x+1,y-1,z);}
-        if (x+1 < mag && y+1 < szel && bejart.includes(((x+1)*szel)+y+1) == false) {
-            bejart.push(((x+1)*szel)+y+1);
-            setTimeout(Rekurziv_felfedes,5,x+1,y+1,z);}
-        if (x-1 >= 0 && y+1 < szel && bejart.includes(((x-1)*szel)+y+1) == false) {
-            bejart.push(((x-1)*szel)+y+1);
-            setTimeout(Rekurziv_felfedes,5,x-1,y+1,z);} 
     }
 }
 function felfedes(item){
     if (timer == null) setTimer();
     if (ingame == true && item.zaszlo!=1) {
-        if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0) {
-            Rekurziv_felfedes(Math.ceil(item.id/szel)-1,(item.id-(Math.ceil(item.id/szel)-1)*szel)-1,0);}
-        else if(matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == -1){
-            item.src = "img/talalt.png";item.zaszlo = 4;//Csak hogy ne írja át a vege
-            document.getElementById("reset_img_disp").src="img/face_bum.png";
-            //"img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";
+        if(lerakottbombak.includes(Number(item.id))){
+            console.log("asd")
+            item.src = "img/talalt.png";item.zaszlo = 4;
             ingame = false;
-            Vege(false);}
+            Vege(false);
+        }
+        else if (matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0 && !lerakottbombak.includes(item.id)) {
+            console.clear();
+            Rekurziv_felfedes(Number(Math.ceil(item.id/szel)-1),Number((item.id-(Math.ceil(item.id/szel)-1)*szel)-1));
+        }
         else{
-            bejart.push(item.id);
-            item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 3;}
-        if (bejart.length == (szel*mag)-bomba) {
-            document.getElementById("reset_img_disp").src="img/nyert.png";
+            if (!item.felfedett) {
+                bejart++;
+                item.felfedett = true;
+            }
+            item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 3;
+        }
+        if (bejart == (szel*mag)-bomba) {
             setTimeout(Vege(true),100);
         }
     }
@@ -396,10 +346,10 @@ function Vege(win){
         }
     }
     if (win) {
-        //alert("Nyertél! Idő: "+elapsedTime+" másodperc!");
+        document.getElementById("reset_img_disp").src="img/nyert.png";
         canvasMod(win);
     }else{
-        //alert("Vesztettél! Idő: "+elapsedTime+" másodperc!");
+        document.getElementById("reset_img_disp").src="img/face_bum.png";
         canvasMod(win);
     }
 
@@ -471,22 +421,20 @@ function Reset(){
     document.getElementById("offcanvasLabel1").innerText="";
     document.getElementById("leaderboardsave").style.display ="none";
     clearInterval(timer);timer = null;elapsedTime = 0;
-    div_head.innerHTML = "";div.innerHTML = "";matrix = [];lerakottbombak = [];bejart = [];zaszlok = []; 
+    div_head.innerHTML = "";div.innerHTML = "";matrix = [];lerakottbombak = [];bejart = 0;zaszlok = []; 
     ingame = false;
     div_head.innerHTML = "";div.innerHTML = "";
-    let offcanvas = document.getElementsByClassName("offcanvas")[0];
     div.style.display = "none";
 }
 function Load(){
-    if (ingame == false && document.getElementById("bombaBe").value+document.getElementById("magBe").value+document.getElementById("szelBe").value > 0 ) {  
+    if (document.getElementById("bombaBe").value+document.getElementById("magBe").value+document.getElementById("szelBe").value > 0 ) {  
         Reset();
         bomba = document.getElementById("bombaBe").value;mag = document.getElementById("magBe").value;szel = document.getElementById("szelBe").value; 
         document.getElementById("main").style.maxWidth = ((25*szel)+16)+"px";
         main_head_gen(),tabla_gen();matrix1();
         document.getElementById('bomba_disp').innerText = bomba.toString().padStart(3, '0');
         div.style.display = "block";        
-        ingame = true;
-        loaded = 1;
+        ingame = true;loaded = 1;
     }
 }
 menu_gen();canvasGen();

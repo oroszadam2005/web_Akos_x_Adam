@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-import { getFirestore , collection, addDoc ,getDocs,limit,query, orderBy,} from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
+import { getFirestore , collection, addDoc ,getDocs,getDoc,limit,query, orderBy,doc} from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
 var debug = true; //Ha nem akarjuk hogy debug közbe lefusson
 var avalible = true;
 function is_avalible(){
@@ -13,17 +13,17 @@ const firebaseConfig = {
     messagingSenderId: "507391259846",
     appId: "1:507391259846:web:d8b8510a0abeaffc5e13c7"
 };
-const db = getFirestore(initializeApp(firebaseConfig));var saveddata;
+const db = getFirestore(initializeApp(firebaseConfig));var saveddata ="0";
 async function save_data(){
-    if (avalible) {
-        var mode = document.getElementById("nehezseg_span_kivalasztott").innerText;var name = document.getElementById("name").value;
+    var name = document.getElementById("name").value;
+    if (name.length >2) {        
+        var mode = document.getElementById("game").className;
         const docRef = await addDoc(collection(db, mode), {
-            name:name,ido:parseInt(document.getElementById("time_disp").innerText)+1,mode:mode
+            name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode
         });
-        document.getElementById("leaderboardsave").style.display = "none";saveddata = docRef.id;
-        get_data(mode);
-        avalible = false;
-        setTimeout(is_avalible,3000);
+        document.getElementById("leaderboardsave").style.display = "none";
+    }else{
+        alert("Adjon meg felhasználónevet!");
     }
 }
 async function get_data(mode){  
@@ -37,18 +37,14 @@ async function get_data(mode){
         data.forEach((doc) => {
             i++;
             var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");
-            if (doc.id == saveddata) {
-                td1.innerText = i;td2.innerText = doc.data().name;td3.innerText = doc.data().ido+" sec";tr.id ="flag";
-                document.getElementById("boardload").innerHTML += "<span id ='flag'>"+", Név: "+doc.data().name+" | Idő: "+doc.data().ido+" sec</span>";
-            }else{
-                td1.innerText = i;td2.innerText = doc.data().name;td3.innerText = doc.data().ido+" sec";
-            }
+            td1.innerText = i;td2.innerText = doc.data().name;td3.innerText = doc.data().ido+" sec";
             tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);table.appendChild(tr);
         });
         avalible = false;
         setTimeout(is_avalible,3000);
+    }else{
+        alert("Várj 3 másodpercet!")
     }
-
 }
 if(!debug)
 {
