@@ -406,11 +406,10 @@ function canvasMod(vegStatusz)
 }
 function offcanvasSzabaly(){
     let offcanvas = document.getElementsByClassName("offcanvas")[0];
-    let offcanvasTitle = document.getElementById("offcanvasLabel1");
     let offcanvasHeader = document.getElementById("offcanvasLabel");
     let offcanvasBody = document.getElementsByClassName("offcanvas-body")[1];
     let offcanvasP = document.getElementById("offcanvas_body-p");
-    offcanvasBody.innerHTML = "";
+    offcanvasBody.innerHTML = "<h5 class='offcanvas-title' id='offcanvasLabel2'>Tudnivalók</h5>";
     offcanvasBody.innerHTML+="<p>Az aknakereső eredete egészen az 1960-as évekig nyúlik vissza. Az évek során rengeteg variációja készült, különböző operációs rendszerekre, különböző játékmenettel, mint például a Mined-Out (1983) ZX Spectrum-ra, vagy a Relentless Logic (1985) MS-DOS-ra. A játék talán legismertebb változata a Minesweeper, ami a Microsoft Windows operációs rendszerek részét képezte a Windows 3.1-től egészen a Windows 7-ig. (A legújabb változata innen letölthető.)"+
     "</p><br>"+
     "<p>Ez az aknakereső annak az online játszható másolata.</p>"+
@@ -432,7 +431,6 @@ function offcanvasSzabaly(){
     "<br>"+
     "<p>Tehát a legjobb idők és a toplista eltérhet egymástól.</p>";
     offcanvasHeader.innerText = "Aknakereső";
-    offcanvasTitle.innerText = "Tudnivalók";
     offcanvas.className+=" szelesebb";
 }
 function offcanvasLeader(){
