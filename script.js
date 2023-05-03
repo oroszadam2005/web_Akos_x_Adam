@@ -167,6 +167,7 @@ function gyors_felfedes(item){
             for (let i=-1; i<=1; i++) {
                 for (let j=-1; j<=1; j++) {
                     if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1) {
+                        is_vege();
                         var item = document.getElementById(((x+i)*szel)+y+j+1);
                         if(lerakottbombak.includes(Number(document.getElementById(((x+i)*szel)+(y+j)+1).id))){
                             item.src = "img/talalt.png";item.zaszlo = 4;
@@ -304,10 +305,13 @@ function matrix1(){
         }
     }
 }
-function Rekurziv_felfedes(x,y){
+function is_vege(){
     if (bejart == (szel*mag)-bomba) {
         setTimeout(Vege(true),100);
     }
+}
+function Rekurziv_felfedes(x,y){
+    is_vege();
     var item = document.getElementById((x*szel)+y+1);
     item.src = "img/"+matrix[x][y]+".png";
     if (!item.felfedett) {
@@ -343,9 +347,7 @@ function felfedes(item){
             }
             item.src = "img/"+matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1]+".png";item.zaszlo = 3;
         }
-        if (bejart == (szel*mag)-bomba) {
-            setTimeout(Vege(true),100);
-        }
+        is_vege();
     }
 }
 
