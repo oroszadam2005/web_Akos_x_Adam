@@ -1,13 +1,12 @@
 var div = document.createElement("div");div.id = "main";var menu = document.createElement("div");menu.id = "menu";var almenu = document.createElement("div");almenu.id = "almenu";var div_head = document.createElement("div");div_head.id = "main_head";
 document.body.appendChild(menu);document.body.appendChild(almenu);document.body.appendChild(div);div.style.display = "none";
 var lerakottbombak = [];var matrix = [];var bomba;var mag;var szel;var bejart = 0;var ingame = false;var timer;var elapsedTime; var zaszlok = [];var loaded = 0;
-//menu,tábla generálás
 function setTimer () {
     timer = setInterval(function(){
       elapsedTime += 1;
       document.getElementById('time_disp').innerText = elapsedTime.toString().padStart(3, '0');
     }, 1000);
-  };
+}
 function main_head_gen(){
     div.appendChild(div_head);
     var head = document.createElement("div");head.id = "head";
@@ -27,23 +26,26 @@ function gomb_kivalasztas(elem)
     if(elem.id=="egyeniGomb")
     {
         parameter_divGyerekek[0].value=null;parameter_divGyerekek[1].value=null;parameter_divGyerekek[2].value=null;
-        document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";}
+        document.getElementById("bombaBe").style.display="block";document.getElementById("magBe").style.display="block";document.getElementById("szelBe").style.display="block";
+    }
     else
     {
         document.getElementById("bombaBe").style.display="none";document.getElementById("magBe").style.display="none";document.getElementById("szelBe").style.display="none";
-        
         for(let i = 0; i<parameter_divGyerekek.length;i++)
         {      
             parameter_divGyerekek[i].style.display="none";
             if(i ==0)
             {
-                parameter_divGyerekek[i].value=elem.dataset.szel}
+                parameter_divGyerekek[i].value=elem.dataset.szel
+            }
             else if(i==1)
             {
-                parameter_divGyerekek[i].value=elem.dataset.mag}
+                parameter_divGyerekek[i].value=elem.dataset.mag
+            }
             else
             {
-                parameter_divGyerekek[i].value=elem.dataset.bomba}
+                parameter_divGyerekek[i].value=elem.dataset.bomba
+            }
         }
     }
     let start = document.getElementById("startGomb")
@@ -61,59 +63,50 @@ function menu_gen(){
     nehezseg_span.innerText="Nehézség";
     nehezseg_span.id="nehezseg_span";
     menu_start_div.appendChild(nehezseg_span);
-
     let nehezseg_span_kivalasztott = document.createElement("span");
     nehezseg_span_kivalasztott.id="nehezseg_span_kivalasztott";
     menu_start_div.appendChild(nehezseg_span_kivalasztott);
-
     let nehezseg_div_dropdown = document.createElement("div");
     nehezseg_div_dropdown.id="nehezseg_div_dropdown";
     nehezseg_span.appendChild(nehezseg_div_dropdown);
-
     let startGomb = document.createElement("button");
     startGomb.id="startGomb";
     startGomb.innerText="Indítás";
     startGomb.setAttribute("onclick","Load()");
     startGomb.setAttribute("disabled","true");
     menu_start_div.appendChild(startGomb);
-
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
     konnyuGomb.innerText="Könnyű";
     konnyuGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     konnyuGomb.dataset.mag=9;
     konnyuGomb.dataset.szel=9;
-    konnyuGomb.dataset.bomba=1;
+    konnyuGomb.dataset.bomba=10;
     nehezseg_div_dropdown.appendChild(konnyuGomb);
-
     let haladoGomb = document.createElement("button");
     haladoGomb.id="haladoGomb";
     haladoGomb.innerText="Haladó";
     haladoGomb.setAttribute("onClick","gomb_kivalasztas(this)");
-    haladoGomb.dataset.mag=20;
-    haladoGomb.dataset.szel=20;
-    haladoGomb.dataset.bomba=50;
+    haladoGomb.dataset.mag=16;
+    haladoGomb.dataset.szel=16;
+    haladoGomb.dataset.bomba=40;
     nehezseg_div_dropdown.appendChild(haladoGomb);
-
     let nehezGomb = document.createElement("button");
     nehezGomb.id="nehezGomb";
     nehezGomb.innerText="Nehéz";
     nehezGomb.setAttribute("onClick","gomb_kivalasztas(this)");
-    nehezGomb.dataset.mag=40;
-    nehezGomb.dataset.szel=40;
-    nehezGomb.dataset.bomba=100;
+    nehezGomb.dataset.mag=16;
+    nehezGomb.dataset.szel=30;
+    nehezGomb.dataset.bomba=99;
     nehezseg_div_dropdown.appendChild(nehezGomb);
-
     let egyeniGomb = document.createElement("button");
     egyeniGomb.id="egyeniGomb";
     egyeniGomb.innerText="Egyéni";
     egyeniGomb.setAttribute("onClick","gomb_kivalasztas(this)");
     nehezseg_div_dropdown.appendChild(egyeniGomb);
-
     let parameter_div = document.createElement("div");
     parameter_div.id="parameter_div";
     almenu.appendChild(parameter_div);
-
     let szelBe = document.createElement("input");
     szelBe.setAttribute("type","number");
     szelBe.setAttribute("min","9");
@@ -122,7 +115,6 @@ function menu_gen(){
     szelBe.setAttribute("onKeyDown","return false");
     szelBe.style.display="none";
     parameter_div.appendChild(szelBe);
-
     let magBe = document.createElement("input");
     magBe.setAttribute("type","number");
     magBe.setAttribute("min","9");
@@ -131,7 +123,6 @@ function menu_gen(){
     magBe.setAttribute("onKeyDown","return false");
     magBe.style.display="none";
     parameter_div.appendChild(magBe);
-
     let bombaBe = document.createElement("input");
     bombaBe.setAttribute("type","number");
     bombaBe.setAttribute("min","9");
@@ -144,9 +135,7 @@ function menu_gen(){
 var lenyomvaBal = false;
 var lenyomvaJobb = false;
 var utolsoLenyomott;
-var duplalenyomott = null;
 function x_ray(item,src){
-    console.log(item,"-----",src);
     var x = Math.ceil(item.id/szel)-1
     var y = (item.id-(Math.ceil(item.id/szel)-1)*szel)-1
     for (let i=-1; i<=1; i++) {
@@ -158,7 +147,44 @@ function x_ray(item,src){
             }
         }    
     }
-};
+}
+function gyors_felfedes(item){
+    var x = Math.ceil(item.id/szel)-1
+    var y = (item.id-(Math.ceil(item.id/szel)-1)*szel)-1
+    if (item.felfedett && matrix[x][y] != 0) {       
+        var szam = matrix[x][y];
+        var zaszlo = 0;
+        for (let i=-1; i<=1; i++) {
+            for (let j=-1; j<=1; j++) {
+                if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
+                    if (szam > 0 && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo == 1) {
+                        zaszlo++;
+                    }
+                }
+            }    
+        }
+        if (szam == zaszlo) {
+            for (let i=-1; i<=1; i++) {
+                for (let j=-1; j<=1; j++) {
+                    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1) {
+                        var item = document.getElementById(((x+i)*szel)+y+j+1);
+                        if(lerakottbombak.includes(Number(document.getElementById(((x+i)*szel)+(y+j)+1).id))){
+                            item.src = "img/talalt.png";item.zaszlo = 4;
+                            ingame = false;
+                            Vege(false);
+                        }else{
+                            item.src = "img/"+matrix[x+i][y+j]+".png";
+                            if (!item.felfedett) {
+                                bejart++;
+                            }
+                            item.felfedett = true;
+                        }
+                    }
+                }    
+            }
+        }
+    }
+}
 document.addEventListener('mousemove', e => {
     utolsoLenyomott = document.elementFromPoint(e.clientX, e.clientY)
   }, {passive: true})
@@ -169,7 +195,8 @@ window.addEventListener("mouseup",function(ev){
         lenyomvaBal = false;
         if(lenyomvaJobb)
         {  
-            x_ray(utolsoLenyomott,"img/fedett.png");     
+            x_ray(utolsoLenyomott,"img/fedett.png");
+            gyors_felfedes(utolsoLenyomott);
         }
     }
     else if(ev.button == 2)
@@ -178,11 +205,15 @@ window.addEventListener("mouseup",function(ev){
         if(lenyomvaBal)
         {
             x_ray(utolsoLenyomott,"img/fedett.png");
+            gyors_felfedes(utolsoLenyomott);
         }
     }
 })
+var clickanim = null;
 function tabla_gen(){
-    var table = document.createElement("table"); table.id = "game";table.className = document.getElementById("nehezseg_span_kivalasztott").innerText;
+    var table = document.createElement("table"); 
+    table.id = "game";
+    table.className = document.getElementById("nehezseg_span_kivalasztott").innerText;
     div.appendChild(table);
     for (let index = 0; index < mag; index++) {
         var tr = document.createElement("tr");var tmp = [];
@@ -202,10 +233,12 @@ function tabla_gen(){
                     {
                         if(this.zaszlo == null || this.zaszlo == 0){
                             zaszlok.push(this.id);
-                            this.zaszlo = 1;this.src = "img/zaszlo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                            this.zaszlo = 1;this.src = "img/zaszlo.png";
+                            document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
                         else if(this.zaszlo == 1){
                             zaszlok.splice(zaszlok.indexOf(this.id),1);
-                            this.zaszlo = 2;this.src = "img/kerdo.png";document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
+                            this.zaszlo = 2;this.src = "img/kerdo.png";
+                            document.getElementById('bomba_disp').innerText = (bomba-zaszlok.length).toString().padStart(3, '0');}
                         else if(this.zaszlo == null || this.zaszlo == 2 )
                         {
                             this.zaszlo = 0;this.src = "img/fedett.png";
@@ -216,7 +249,7 @@ function tabla_gen(){
                 {
                     var ev = ev || window.event;
                     if(ev.button == 0) // Bal
-                    {
+                    {  
                         lenyomvaBal = true;
                         if(lenyomvaJobb)
                         {
@@ -253,7 +286,6 @@ function tabla_gen(){
         matrix.push(tmp);table.appendChild(tr);
     }
 }
-//back
 function matrix1(){
     while(lerakottbombak.length != bomba){
         var rnd = Math.floor(Math.random()*(mag*szel)+1);
@@ -302,7 +334,6 @@ function felfedes(item){
             Vege(false);
         }
         else if (!item.felfedett && matrix[Math.ceil(item.id/szel)-1][(item.id-(Math.ceil(item.id/szel)-1)*szel)-1] == 0 && !lerakottbombak.includes(item.id)) {
-            console.clear();
             Rekurziv_felfedes(Number(Math.ceil(item.id/szel)-1),Number((item.id-(Math.ceil(item.id/szel)-1)*szel)-1));
         }
         else{
@@ -342,7 +373,6 @@ function Vege(win){
         document.getElementById("reset_img_disp").src="img/face_bum.png";
         canvasMod(win);
     }
-
 }
 function canvasMod(vegStatusz)
 {
