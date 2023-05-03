@@ -16,10 +16,13 @@ const firebaseConfig = {
 const db = getFirestore(initializeApp(firebaseConfig));
 async function save_data(){
     var name = document.getElementById("name").value;
-    if (name.length >2) {        
+    if (name.length >2) { 
+        var currentdate = new Date(); 
+        var datetime = currentdate.getDate() + "/"+ (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear();
+      
         var mode = document.getElementById("game").className;
         const docRef = await addDoc(collection(db, mode), {
-            name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode,date:Date.now()
+            name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode,date:datetime
         });
         document.getElementById("leaderboardsave").style.display = "none";
         alert("Sikeresen elmentettük az eredményed!")
@@ -32,7 +35,8 @@ async function get_data(mode){
         document.getElementById("db_data").innerHTML = mode+":";const data = await getDocs(query(collection(db, mode), orderBy("ido", "asc"),limit(50)));var i = 0;var table = document.createElement("table");
         document.getElementById("db_data").appendChild(table);
         var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");var td4 = document.createElement("td");table.id="leaderboardtable";
-        td1.innerText = "RANK";td2.innerText = "NÉV";td3.innerText = "IDŐ";td4.innerText = "DATE";
+        td1.style.fontSize ="25px";td2.style.fontSize ="25px";td3.style.fontSize ="25px";td4.style.fontSize ="25px";
+        td1.innerText = "👑";td2.innerText = "🪪";td3.innerText = "⏱️";td4.innerText = "🗓️";
         tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);tr.appendChild(td4);
         table.appendChild(tr);
         data.forEach((doc) => {

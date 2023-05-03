@@ -156,8 +156,8 @@ table{
     text-align: center;
 }
 #boardload button,#boardload p,#offcanvasLabel{
-    margin-left: 13px;
-    margin-right: 13px;
+    margin-left: 22px;
+    margin-right: 22px;
     text-align: center;
     font-size: 15px;
     font-weight: bolder;
@@ -169,7 +169,7 @@ table{
     border-left: 2px solid #ffffff;
     background-color: #C0C0C0;
     width: fit-content;
-    width: 300px;
+    width: 350px;
 }
 button{
     border-top: 2px solid #ffffff !important;
@@ -234,6 +234,9 @@ button{
     margin: 1px;
     width: 0.1%;
     word-break:normal;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    padding:3px;
 }
 #info{
     float: right !important;
