@@ -56,7 +56,7 @@ function gomb_kivalasztas(elem)
 }
 function menu_gen(){
     let menu_start_div = document.createElement("div"); menu_start_div.id = "menu_start_div";
-    let boardopen = document.createElement("span");boardopen.innerText="Leaderboard";boardopen.id="boardopen";boardopen.setAttribute("onclick","Open_Close()"); document.body.appendChild(boardopen);
+    let boardopen = document.createElement("span");boardopen.innerText="Leaderboard";boardopen.id="boardopen";boardopen.setAttribute("onclick","Open_Close('leaderboard')"); document.body.appendChild(boardopen);
     menu.appendChild(boardopen);
     menu.appendChild(menu_start_div);
     let nehezseg_span = document.createElement("span");
@@ -75,6 +75,8 @@ function menu_gen(){
     startGomb.setAttribute("onclick","Load()");
     startGomb.setAttribute("disabled","true");
     menu_start_div.appendChild(startGomb);
+    let szabalyGomb = document.createElement("span");szabalyGomb.innerText="Aknakeresőről";szabalyGomb.id="info";szabalyGomb.setAttribute("onclick","Open_Close('szabaly')"); document.body.appendChild(szabalyGomb);
+    menu.appendChild(szabalyGomb);
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
     konnyuGomb.innerText="Könnyű";
@@ -377,7 +379,7 @@ function Vege(win){
 function canvasMod(vegStatusz)
 {
     let offcanvas = document.getElementsByClassName("offcanvas")[0];
-    var offcanvasTitle = document.getElementById("offcanvasLabel1");
+    let offcanvasTitle = document.getElementById("offcanvasLabel1");
     let offcanvasBody = document.getElementsByClassName("offcanvas-body")[0];
     let offcanvasP = document.getElementById("offcanvas_body-p");
     offcanvas.className = "offcanvas show offcanvas-start"
@@ -399,13 +401,70 @@ function canvasMod(vegStatusz)
         offcanvas.className ="offcanvas show  offcanvas-start"
     }
 }
-function Open_Close(){
-    var offcanvas = document.getElementsByClassName("offcanvas")[0];
-    if(offcanvas.className =="offcanvas show offcanvas-start")
+function offcanvasSzabaly(){
+    let offcanvas = document.getElementsByClassName("offcanvas")[0];
+    let offcanvasTitle = document.getElementById("offcanvasLabel1");
+    let offcanvasHeader = document.getElementById("offcanvasLabel");
+    let offcanvasBody = document.getElementsByClassName("offcanvas-body")[1];
+    let offcanvasP = document.getElementById("offcanvas_body-p");
+    offcanvasBody.innerHTML = "";
+    offcanvasBody.innerHTML+="<p>Az aknakereső eredete egészen az 1960-as évekig nyúlik vissza. Az évek során rengeteg variációja készült, különböző operációs rendszerekre, különböző játékmenettel, mint például a Mined-Out (1983) ZX Spectrum-ra, vagy a Relentless Logic (1985) MS-DOS-ra. A játék talán legismertebb változata a Minesweeper, ami a Microsoft Windows operációs rendszerek részét képezte a Windows 3.1-től egészen a Windows 7-ig. (A legújabb változata innen letölthető.)"+
+    "</p><br>"+
+    "<p>Ez az aknakereső annak az online játszható másolata.</p>"+
+    "<br>"+
+    "<h5 class='offcanvas-title' id='offcanvasLabel2'>Szabályok</h5>"+
+    "<br>"+
+    "<p>Az akanakereső egy logikai játék, melynek célja megtisztítani a pályát a rejtett aknáktól anélkül, hogy felrobbanna valamelyik.</p>"+
+    "<br>"+
+    "<p>Megtalálni egy aknát úgy lehet, hogy rákattintunk egy mezőre az egér bal gombjával. Ha akna volt alatta, az felrobban és a játékot elvesztettük. Ha nem volt alatta akna, akkor egy szám jelenik meg, ami azt mutatja, hogy az adott mező küröl hány akna található – ez ugye, maximum 8 lehet. Ha egy akna sem található kürölötte, akkor föltárul az összes mellette lévő aknamentes rész is."+
+    "</p><br>"+
+    "<p>A játék lényege, hogy a megjelenő számokból kikövetkeztessük, hol lehet akna. Ha sejtésünk szerint valahol akna van, azt jelezhetjük magunknak a pályára letett zászlókkal (jobb egérgomb).</p>"+
+    "<br>"+
+    "<p>A játékot akkor nyertük meg, ha az összes aknamentes mezőre rákattintottunk.</p>"+
+    "<br>"+
+    "<p>Legjobb időd, Toplista</p>"
+    "A legjobb idők menüpont alatt találod meg, hogy mennyi idő alatt sikerült megcsinálnsod a különböző nehézségű játékokat, azon a gépen, ahol éppen játszol. Az idők mellé bármilyen nevet beírhatsz, és bármikor törölheted őket (vagy báki más akivel együtt használod ezt a számítógépet)."+
+    "<br>"+
+    "<p>A Toplistára a bejelentkezett felhasználók kerülhetnek fel a legjobb eredményeikkel és a regisztrációkor megadott nevükkel.</p>"+
+    "<br>"+
+    "<p>Tehát a legjobb idők és a toplista eltérhet egymástól.</p>";
+    offcanvasHeader.innerText = "Aknakereső";
+    offcanvasTitle.innerText = "Tudnivalók";
+    offcanvas.className+=" szelesebb";
+}
+function offcanvasLeader(){
+    let offcanvas = document.getElementsByClassName("offcanvas")[0];
+    let offcanvasTitle = document.getElementById("offcanvasLabel1");
+    let offcanvasHeader = document.getElementById("offcanvasLabel");
+    let offcanvasBody = document.getElementsByClassName("offcanvas-body")[1];
+    offcanvasBody.innerHTML = "";
+    offcanvasTitle.innerHTML = "";
+    offcanvasHeader.innerHTML = "LEADERBOARD";
+    offcanvasBody.innerHTML = "<p id='offcanvas_body-p'>Válassza ki melyik táblát szeretné betőlteni!</p>"+
+    "<button type='button' data-bs-dismiss='offcanvas' id='load_k'>Könnyű</button>"+
+    "<button type='button' data-bs-dismiss='offcanvas' id='load_h'>Haladó</button>"+
+    "<button type='button' data-bs-dismiss='offcanvas' id='load_n'>Nehéz</button>"+
+    "<div id='db_data'></div>";
+    if(offcanvas.className.split.length>2)
     {
-        offcanvas.className ="offcanvas offcanvas-start"
+        offcanvas.className = "offcanvas offcanvas-start";
+    }
+}
+function Open_Close(melyiket){
+    var offcanvas = document.getElementsByClassName("offcanvas")[0];
+    if(offcanvas.className.split(' ')[1] =="show")
+    {
+        offcanvas.className ="offcanvas offcanvas-start";
     }else{
-        offcanvas.className ="offcanvas show offcanvas-start"
+        offcanvas.className ="offcanvas show offcanvas-start";
+    }
+    if(melyiket == "szabaly")
+    {
+        offcanvasSzabaly();
+    }
+    else if(melyiket == "leaderboard")
+    {
+        offcanvasLeader();
     }
 }
 function canvasGen()
@@ -417,7 +476,7 @@ function canvasGen()
     "<div class='offcanvas offcanvas-start' tabindex='-1' id='offcanvas' aria-labelledby='offcanvasLabel'>"+
         "<div class='offcanvas-header'>"+
             "<h5 class='offcanvas-title' id='offcanvasLabel'>LEADERBOARD</h5>"+
-            "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Open_Close()'></button>"+
+            "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Open_Close(&#39&#39)'></button>"+
         "</div>"+
         "<h5 class='offcanvas-title' id='offcanvasLabel1'></h5>"+
         "<div id='leaderboardsave' class='offcanvas-body'>"+
