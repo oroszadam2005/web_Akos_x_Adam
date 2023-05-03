@@ -380,6 +380,7 @@ function Vege(win){
 }
 function canvasMod(vegStatusz)
 {
+    offcanvasLeader();
     let offcanvas = document.getElementsByClassName("offcanvas")[0];
     let offcanvasTitle = document.getElementById("offcanvasLabel1");
     let offcanvasBody = document.getElementsByClassName("offcanvas-body")[0];
@@ -456,8 +457,11 @@ function Open_Close(melyiket){
     var offcanvas = document.getElementsByClassName("offcanvas")[0];
     if(offcanvas.className.split(' ')[1] =="show")
     {
-        offcanvas.className ="offcanvas offcanvas-start";
-    }else{
+        if(melyiket=="")
+        {
+            offcanvas.className ="offcanvas offcanvas-start";
+        }
+    }else {
         offcanvas.className ="offcanvas show offcanvas-start";
     }
     if(melyiket == "szabaly")
