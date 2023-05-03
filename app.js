@@ -13,37 +13,38 @@ const firebaseConfig = {
     messagingSenderId: "507391259846",
     appId: "1:507391259846:web:d8b8510a0abeaffc5e13c7"
 };
-const db = getFirestore(initializeApp(firebaseConfig));var saveddata ="0";
+const db = getFirestore(initializeApp(firebaseConfig));
 async function save_data(){
     var name = document.getElementById("name").value;
     if (name.length >2) {        
         var mode = document.getElementById("game").className;
         const docRef = await addDoc(collection(db, mode), {
-            name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode
+            name:name,ido:parseInt(document.getElementById("time_disp").innerText),mode:mode,date:Date.now()
         });
         document.getElementById("leaderboardsave").style.display = "none";
+        alert("Sikeresen elmentettük az eredményed!")
     }else{
         alert("Adjon meg felhasználónevet!");
     }
 }
 async function get_data(mode){  
     if (avalible) {    
-        document.getElementById("db_data").innerHTML = mode+":";const data = await getDocs(query(collection(db, mode), orderBy("ido", "asc"),limit(10)));var i = 0;var table = document.createElement("table");
+        document.getElementById("db_data").innerHTML = mode+":";const data = await getDocs(query(collection(db, mode), orderBy("ido", "asc"),limit(50)));var i = 0;var table = document.createElement("table");
         document.getElementById("db_data").appendChild(table);
-        var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");table.id="leaderboardtable";
-        td1.innerText = "RANK";td2.innerText = "NÉV";td3.innerText = "IDŐ";
-        tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+        var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");var td4 = document.createElement("td");table.id="leaderboardtable";
+        td1.innerText = "RANK";td2.innerText = "NÉV";td3.innerText = "IDŐ";td4.innerText = "DATE";
+        tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);tr.appendChild(td4);
         table.appendChild(tr);
         data.forEach((doc) => {
             i++;
-            var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");
-            td1.innerText = i;td2.innerText = doc.data().name;td3.innerText = doc.data().ido+" sec";
-            tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);table.appendChild(tr);
+            var tr = document.createElement("tr");var td1 = document.createElement("td");var td2 = document.createElement("td");var td3 = document.createElement("td");var td4 = document.createElement("td");
+            td1.innerText = i;td2.innerText = doc.data().name;td3.innerText = doc.data().ido+" sec";td4.innerText = doc.data().date;
+            tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);tr.appendChild(td4);table.appendChild(tr);
         });
         avalible = false;
-        setTimeout(is_avalible,3000);
+        setTimeout(is_avalible,1000);
     }else{
-        alert("Várj 3 másodpercet!")
+        alert("Várj 1 másodpercet!")
     }
 }
 if(!debug)
