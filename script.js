@@ -57,7 +57,7 @@ function gomb_kivalasztas(elem)
 function menu_gen(){
     let menu_start_div = document.createElement("div"); menu_start_div.id = "menu_start_div";
     let boardopen = document.createElement("span");boardopen.innerText="Leaderboard";boardopen.id="boardopen";boardopen.setAttribute("onclick","Open_Close('leaderboard')"); document.body.appendChild(boardopen);
-    menu.appendChild(boardopen);
+    menu_start_div.appendChild(boardopen);
     menu.appendChild(menu_start_div);
     let nehezseg_span = document.createElement("span");
     nehezseg_span.innerText="Nehézség";
@@ -76,7 +76,7 @@ function menu_gen(){
     startGomb.setAttribute("disabled","true");
     menu_start_div.appendChild(startGomb);
     let szabalyGomb = document.createElement("span");szabalyGomb.innerText="Aknakeresőről";szabalyGomb.id="info";szabalyGomb.setAttribute("onclick","Open_Close('szabaly')"); document.body.appendChild(szabalyGomb);
-    menu.appendChild(szabalyGomb);
+    menu_start_div.appendChild(szabalyGomb);
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
     konnyuGomb.innerText="Könnyű";
