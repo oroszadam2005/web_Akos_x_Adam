@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getFirestore , collection, addDoc ,getDocs,getDoc,limit,query, orderBy,doc} from 'https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js';
-var debug = true; //Ha nem akarjuk hogy debug közbe lefusson
+var debug = false; //Ha nem akarjuk hogy debug közbe lefusson
 var avalible = true;
 function is_avalible(){
     avalible = true;
