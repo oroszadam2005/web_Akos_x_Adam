@@ -75,7 +75,7 @@ function menu_gen(){
     startGomb.setAttribute("onclick","Load()");
     startGomb.setAttribute("disabled","true");
     menu_start_div.appendChild(startGomb);
-    let szabalyGomb = document.createElement("span");szabalyGomb.innerText="Aknakeresőről";szabalyGomb.id="info";szabalyGomb.setAttribute("onclick","Open_Close2()"); document.body.appendChild(szabalyGomb);
+    let szabalyGomb = document.createElement("span");szabalyGomb.innerText="Info";szabalyGomb.id="info";szabalyGomb.setAttribute("onclick","Open_Close2()"); document.body.appendChild(szabalyGomb);
     menu_start_div.appendChild(szabalyGomb);
     let konnyuGomb = document.createElement("button");
     konnyuGomb.id="konnyuGomb";
@@ -432,29 +432,21 @@ function canvasGen2()
     ""+
     "<div class='2 offcanvas offcanvas-end' tabindex='-1' id='offcanvasRight' aria-labelledby='offcanvasRightLabel'>"+
         "<div class='offcanvas-header'>"+
-            "<h5 class='offcanvas-title' id='offcanvasRightLabel'>Tudnivalók</h5>"+
+            "<h5 class='offcanvas-title' id='offcanvasRightLabel'>TUDNIVALÓK</h5>"+
             "<button type='button' class='btn-close' data-bs-dismiss='offcanvas' onclick='Open_Close2()'></button>"+
         "</div>"+
         "<div class='offcanvas-body'>"+
-        "<p>Az aknakereső eredete egészen az 1960-as évekig nyúlik vissza. Az évek során rengeteg variációja készült, különböző operációs rendszerekre, különböző játékmenettel, mint például a Mined-Out (1983) ZX Spectrum-ra, vagy a Relentless Logic (1985) MS-DOS-ra. A játék talán legismertebb változata a Minesweeper, ami a Microsoft Windows operációs rendszerek részét képezte a Windows 3.1-től egészen a Windows 7-ig. (A legújabb változata innen letölthető.)"+
-        "</p><br>"+
+        "<h5 class='offcanvas-title' id='offcanvasRightLabel2'>Története</h5>"+
+        "<p>Az aknakereső eredete egészen az 1960-as évekig nyúlik vissza. Az évek során rengeteg variációja készült, különböző operációs rendszerekre, különböző játékmenettel, mint például a Mined-Out (1983) ZX Spectrum-ra, vagy a Relentless Logic (1985) MS-DOS-ra. A játék talán legismertebb változata a Minesweeper, ami a Microsoft Windows operációs rendszerek részét képezte a Windows 3.1-től egészen a Windows 7-ig. (A legújabb változata innen letölthető.)</p>"+
         "<p>Ez az aknakereső annak az online játszható másolata.</p>"+
-        "<br>"+
         "<h5 class='offcanvas-title' id='offcanvasRightLabel2'>Szabályok</h5>"+
-        "<br>"+
         "<p>Az akanakereső egy logikai játék, melynek célja megtisztítani a pályát a rejtett aknáktól anélkül, hogy felrobbanna valamelyik.</p>"+
-        "<br>"+
         "<p>Megtalálni egy aknát úgy lehet, hogy rákattintunk egy mezőre az egér bal gombjával. Ha akna volt alatta, az felrobban és a játékot elvesztettük. Ha nem volt alatta akna, akkor egy szám jelenik meg, ami azt mutatja, hogy az adott mező küröl hány akna található – ez ugye, maximum 8 lehet. Ha egy akna sem található kürölötte, akkor föltárul az összes mellette lévő aknamentes rész is."+
-        "</p><br>"+
         "<p>A játék lényege, hogy a megjelenő számokból kikövetkeztessük, hol lehet akna. Ha sejtésünk szerint valahol akna van, azt jelezhetjük magunknak a pályára letett zászlókkal (jobb egérgomb).</p>"+
-        "<br>"+
         "<p>A játékot akkor nyertük meg, ha az összes aknamentes mezőre rákattintottunk.</p>"+
-        "<br>"+
-        "<p>Legjobb időd, Toplista</p>"
+        "<h5 class='offcanvas-title' id='offcanvasRightLabel2'>Toplista</h5>"+
         "A legjobb idők menüpont alatt találod meg, hogy mennyi idő alatt sikerült megcsinálnsod a különböző nehézségű játékokat, azon a gépen, ahol éppen játszol. Az idők mellé bármilyen nevet beírhatsz, és bármikor törölheted őket (vagy báki más akivel együtt használod ezt a számítógépet)."+
-        "<br>"+
         "<p>A Toplistára a bejelentkezett felhasználók kerülhetnek fel a legjobb eredményeikkel és a regisztrációkor megadott nevükkel.</p>"+
-        "<br>"+
         "<p>Tehát a legjobb idők és a toplista eltérhet egymástól.</p>";
         "</div>"+
     "</div>";
