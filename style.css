@@ -155,7 +155,7 @@ table{
     font-size: 20px;
     text-align: center;
 }
-#boardload button,#boardload p,#offcanvasLabel{
+#boardload button,#boardload p,#offcanvasLabel,#offcanvasLabel2,#offcanvasRight{
     margin-left: 22px;
     margin-right: 22px;
     text-align: center;
@@ -238,9 +238,14 @@ button{
     border-bottom: 1px solid black;
     padding:3px;
 }
-#info{
-    /*position: fixed;
-    left: 150px;*/
+.offcanvas.offcanvas-end{
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #7B7B7B;
+    border-bottom: 2px solid #7B7B7B;
+    border-left: 2px solid #ffffff;
+    background-color: #C0C0C0;
+    width: fit-content;
+    width: 350px;
 }
 .szelesebb{
     width: 450px !important;
