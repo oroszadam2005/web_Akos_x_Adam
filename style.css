@@ -8,6 +8,7 @@ body{
     background-color: rgba(0, 0, 0, 0.5);
     background-blend-mode: color;
     line-height: normal;
+    font-family:monospace;
 }
 td,tr,table{
     padding: 0px;
@@ -155,7 +156,19 @@ table{
     font-size: 20px;
     text-align: center;
 }
-#boardload button,#boardload p,#offcanvasLabel,#offcanvasLabel2,#offcanvasRight{
+#hint .offcanvas-body{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bolder;
+}
+#hint .offcanvas-body p{
+    padding: 15px;
+}
+#offcanvasRightLabel2{
+    color: red;
+    font-size: 30px;
+}
+#offcanvasRightLabel,#boardload button,#boardload p,#offcanvasLabel,#offcanvasLabel2{
     margin-left: 22px;
     margin-right: 22px;
     text-align: center;
@@ -179,10 +192,10 @@ button{
     background-color: #C0C0C0 !important;
     border-radius: 0% !important;
 }
-#board button{
+#board button,.btn-close{
     width: 55px;
 }
-#boardopen:hover,#nehezseg_span:hover,#startGomb:hover,#nehezseg_span_kivalasztott:hover,button:hover{
+#info:hover,#boardopen:hover,#nehezseg_span:hover,#startGomb:hover,#nehezseg_span_kivalasztott:hover,button:hover{
     border-top: 2px solid black !important;
     border-right: 2px solid black !important;
     border-bottom: 2px solid black !important;
