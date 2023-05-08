@@ -142,12 +142,15 @@ function x_ray(item,src){
     var y = (item.id-(Math.ceil(item.id/szel)-1)*szel)-1
     for (let i=-1; i<=1; i++) {
         for (let j=-1; j<=1; j++) {
-            if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel)) {
-                if(!document.getElementById(((x+i)*szel)+(y+j)+1).felfedett&&document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1){
-                    document.getElementById(((x+i)*szel)+(y+j)+1).src = src;
-                }
-            }
+            x_ray_check(x,y,i,j,src);
         }    
+    }
+}
+function x_ray_check(x,y,i,j,src){
+    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel)) {
+        if(!document.getElementById(((x+i)*szel)+(y+j)+1).felfedett&&document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1){
+            document.getElementById(((x+i)*szel)+(y+j)+1).src = src;
+        }
     }
 }
 function gyors_felfedes(item){
@@ -155,36 +158,45 @@ function gyors_felfedes(item){
     var y = (item.id-(Math.ceil(item.id/szel)-1)*szel)-1
     if (item.felfedett && matrix[x][y] != 0) {       
         var szam = matrix[x][y];
-        var zaszlo = 0;
-        for (let i=-1; i<=1; i++) {
-            for (let j=-1; j<=1; j++) {
-                if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
-                    if (szam > 0 && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo == 1) {
-                        zaszlo++;
-                    }
-                }
-            }    
+        if (szam == gyors_felfedes_zaszlocheck(szam,x,y)) {
+            gyors_felfedes_atjaras(item,x,y);
         }
-        if (szam == zaszlo) {
-            for (let i=-1; i<=1; i++) {
-                for (let j=-1; j<=1; j++) {
-                    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1) {
-                        is_vege();
-                        var item = document.getElementById(((x+i)*szel)+y+j+1);
-                        if(lerakottbombak.includes(Number(document.getElementById(((x+i)*szel)+(y+j)+1).id))){
-                            item.src = "img/talalt.png";item.zaszlo = 4;
-                            ingame = false;
-                            Vege(false);
-                        }else{
-                            item.src = "img/"+matrix[x+i][y+j]+".png";
-                            if (!item.felfedett) {
-                                bejart++;
-                            }
-                            item.felfedett = true;
-                        }
-                    }
-                }    
+    }
+}
+function gyors_felfedes_zaszlocheck(szam,x,y){
+    var zaszlo = 0;
+    for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+            if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
+                if (szam > 0 && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo == 1) {
+                    zaszlo++;
+                }
             }
+        }    
+    }
+    return zaszlo;
+}
+function gyors_felfedes_atjaras(item,x,y){
+    for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+            gyors_felfedes_atjaras_check(item,x,y,i,j);
+        }    
+    }
+}
+function gyors_felfedes_atjaras_check(item,x,y,i,j){
+    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1) {
+        is_vege();
+        var item = document.getElementById(((x+i)*szel)+y+j+1);
+        if(lerakottbombak.includes(Number(document.getElementById(((x+i)*szel)+(y+j)+1).id))){
+            item.src = "img/talalt.png";item.zaszlo = 4;
+            ingame = false;
+            Vege(false);
+        }else{
+            item.src = "img/"+matrix[x+i][y+j]+".png";
+            if (!item.felfedett) {
+                bejart++;
+            }
+            item.felfedett = true;
         }
     }
 }
@@ -295,15 +307,18 @@ function matrix1(){
             lerakottbombak.push(rnd);
             var x = Math.ceil(rnd/szel)-1
             var y = (rnd-(Math.ceil(rnd/szel)-1)*szel)-1
-            for (let i=-1; i<=1; i++) {
-                for (let j=-1; j<=1; j++) {
-                    if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
-                        matrix[x+i][y+j] ++;
-                    }
-                }    
-            }
+            matrix1_bombaszamtoltes(x,y);
             matrix[Math.ceil(rnd/szel)-1][(rnd-(Math.ceil(rnd/szel)-1)*szel)-1]= -1;
         }
+    }
+}
+function matrix1_bombaszamtoltes(x,y){
+    for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+            if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0)) {
+                matrix[x+i][y+j] ++;
+            }
+        }    
     }
 }
 function is_vege(){
@@ -387,7 +402,7 @@ function canvasMod(vegStatusz)
     var offcanvasTitle = document.getElementById("offcanvasLabel1");
     let offcanvasBody = document.getElementsByClassName("offcanvas-body")[0];
     let offcanvasP = document.getElementById("offcanvas_body-p");
-    offcanvas.className = "offcanvas show offcanvas-start"
+    offcanvas.className = "1 offcanvas show offcanvas-start"
     if(vegStatusz ==true)
     {
         offcanvasTitle.innerText = "Nyertél!";
@@ -401,9 +416,9 @@ function canvasMod(vegStatusz)
         offcanvasTitle.innerText = "Vesztettél!";
         document.getElementById("leaderboardsave").style.display ="none";
     }
-    if(offcanvas.className =="offcanvas offcanvas-start")
+    if(offcanvas.className =="1 offcanvas offcanvas-start")
     {
-        offcanvas.className ="offcanvas show  offcanvas-start"
+        offcanvas.className ="1 offcanvas show  offcanvas-start"
     }
 }
 function Open_Close(){
