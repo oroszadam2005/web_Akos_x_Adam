@@ -185,8 +185,8 @@ function gyors_felfedes_atjaras(item,x,y){
 }
 function gyors_felfedes_atjaras_check(item,x,y,i,j){
     if (x+i >= 0 && x+i < Number(mag) && y+j >= 0 && y+j < Number(szel) && !(i==0 && j==0) && document.getElementById(((x+i)*szel)+(y+j)+1).zaszlo != 1) {
-        is_vege();
         var item = document.getElementById(((x+i)*szel)+y+j+1);
+        is_vege();
         if(lerakottbombak.includes(Number(document.getElementById(((x+i)*szel)+(y+j)+1).id))){
             item.src = "img/talalt.png";item.zaszlo = 4;
             ingame = false;
@@ -195,8 +195,12 @@ function gyors_felfedes_atjaras_check(item,x,y,i,j){
             item.src = "img/"+matrix[x+i][y+j]+".png";
             if (!item.felfedett) {
                 bejart++;
+                item.felfedett = true;
+                if(matrix[x+i][y+j] == 0)
+                {
+                    Rekurziv_felfedes(x+i,y+j);
+                }
             }
-            item.felfedett = true;
         }
     }
 }
